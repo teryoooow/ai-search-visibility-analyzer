@@ -1,0 +1,402 @@
+{
+ "meta": {
+  "analyzedAt": "2026-09-04T08:35:56.448Z",
+  "durationMs": 27513,
+  "targetUrl": "https://backlinko.com/hub/seo/",
+  "finalUrl": "https://backlinko.com/hub/seo",
+  "host": "backlinko.com",
+  "httpStatus": 200,
+  "mimeType": "text/html",
+  "toolVersion": "1.0.0",
+  "lighthouseVersion": "13.4.1",
+  "llmUsed": false
+ },
+ "overview": {
+  "visibilityIndex": 65.7,
+  "grade": "Fair",
+  "summary": "456 words of rendered text were analyzed across 39 SEO/AEO/GEO checks. Strongest category: SEO (79.5/100). Most urgent: GEO (48.1/100) — would a generative engine confidently identify, trust, and cite this page?"
+ },
+ "categories": {
+  "seo": {
+   "key": "SEO",
+   "description": "Will search engines find, index, and get clicks for this page?",
+   "score": 79.5,
+   "grade": "Good",
+   "color": "#84cc16",
+   "passCount": 14,
+   "warnCount": 4,
+   "failCount": 1,
+   "skipped": 0,
+   "checks": [
+    {
+     "id": "http-status",
+     "label": "Document returns HTTP 200",
+     "weight": 2,
+     "status": "pass",
+     "detail": "HTTP 200 — indexable response.",
+     "evidence": null
+    },
+    {
+     "id": "title",
+     "label": "Title tag present & well-sized",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Title is only 17 chars (aim 30–60): \"SEO Marketing Hub\"",
+     "evidence": "SEO Marketing Hub"
+    },
+    {
+     "id": "meta-description",
+     "label": "Meta description present (click-through driver)",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Description is 131 chars.",
+     "evidence": "The SEO Marketing Hub: a library of 30+ resources that cover basic and advanced search engine optimization concepts and techniques."
+    },
+    {
+     "id": "indexability",
+     "label": "Page is indexable (no noindex)",
+     "weight": 3,
+     "status": "pass",
+     "detail": "robots meta \"index,follow\" does not block indexing.",
+     "evidence": null
+    },
+    {
+     "id": "robots-txt",
+     "label": "robots.txt allows crawling",
+     "weight": 2,
+     "status": "pass",
+     "detail": "robots.txt is reachable and does not block crawling",
+     "evidence": null
+    },
+    {
+     "id": "sitemap",
+     "label": "XML sitemap available",
+     "weight": 1,
+     "status": "pass",
+     "detail": "Declared in robots.txt https://backlinko.com/sitemap_index.xml (HTTP 206)",
+     "evidence": null
+    },
+    {
+     "id": "canonical",
+     "label": "Canonical URL declared",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Canonical tag present.",
+     "evidence": "https://backlinko.com/hub/seo"
+    },
+    {
+     "id": "h1",
+     "label": "Exactly one H1 heading",
+     "weight": 2,
+     "status": "pass",
+     "detail": "H1: \"SEO Marketing Hub 2.0\"",
+     "evidence": null
+    },
+    {
+     "id": "hierarchy",
+     "label": "Heading hierarchy has no skipped levels",
+     "weight": 1,
+     "status": "warn",
+     "detail": "Skipped heading level detected (H1 → H4) — use H1→H2→H3 in order.",
+     "evidence": null
+    },
+    {
+     "id": "https",
+     "label": "Served over HTTPS",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Page loads over HTTPS.",
+     "evidence": null
+    },
+    {
+     "id": "viewport",
+     "label": "Mobile viewport configured",
+     "weight": 2,
+     "status": "pass",
+     "detail": "viewport meta present — mobile-first indexing ready.",
+     "evidence": null
+    },
+    {
+     "id": "lcp",
+     "label": "Core Web Vitals — LCP",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Largest Contentful Paint: 3s — needs improvement (target ≤ 2.5s).",
+     "evidence": "loading"
+    },
+    {
+     "id": "cls",
+     "label": "Core Web Vitals — CLS",
+     "weight": 3,
+     "status": "pass",
+     "detail": "Cumulative Layout Shift: 0.05 — good (target ≤ 0.1).",
+     "evidence": "stability"
+    },
+    {
+     "id": "tbt",
+     "label": "Core Web Vitals — responsiveness",
+     "weight": 3,
+     "status": "fail",
+     "detail": "Total Blocking Time: 5109ms — poor (target ≤ 200ms).",
+     "evidence": "interactivity"
+    },
+    {
+     "id": "perf-score",
+     "label": "Lighthouse performance score",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Lighthouse performance score 63/100 (mobile, simulated throttling).",
+     "evidence": "13.4.1"
+    },
+    {
+     "id": "content-depth",
+     "label": "Substantial content on page",
+     "weight": 2,
+     "status": "pass",
+     "detail": "456 words of readable text.",
+     "evidence": null
+    },
+    {
+     "id": "img-alt",
+     "label": "Images have alt text",
+     "weight": 1,
+     "status": "pass",
+     "detail": "All 1 images have alt text.",
+     "evidence": null
+    },
+    {
+     "id": "semantic",
+     "label": "Semantic HTML5 landmarks used",
+     "weight": 1,
+     "status": "pass",
+     "detail": "Found 4/5 landmarks (main/article/nav/header/footer).",
+     "evidence": null
+    },
+    {
+     "id": "internal-links",
+     "label": "Internal links present",
+     "weight": 1,
+     "status": "pass",
+     "detail": "177 internal links — the page is reachable and distributes authority.",
+     "evidence": null
+    }
+   ]
+  },
+  "aeo": {
+   "key": "AEO",
+   "description": "Can answer engines extract one clear, citable answer from this page?",
+   "score": 69.6,
+   "grade": "Fair",
+   "color": "#f59e0b",
+   "passCount": 5,
+   "warnCount": 4,
+   "failCount": 1,
+   "skipped": 0,
+   "checks": [
+    {
+     "id": "schema-valid",
+     "label": "Schema.org markup parses cleanly",
+     "weight": 2,
+     "status": "pass",
+     "detail": "1 valid JSON-LD block found.",
+     "evidence": null
+    },
+    {
+     "id": "schema-types",
+     "label": "High-value schema types present",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Types detected: Organization, BreadcrumbList.",
+     "evidence": "Organization, WebSite, WebPage, ImageObject, BreadcrumbList"
+    },
+    {
+     "id": "schema-quality",
+     "label": "Schema entities carry required fields",
+     "weight": 3,
+     "status": "pass",
+     "detail": "2/2 validated entities are complete.",
+     "evidence": null
+    },
+    {
+     "id": "faq-content",
+     "label": "Question-style headings present (FAQ-ready)",
+     "weight": 3,
+     "status": "warn",
+     "detail": "No question-shaped headings (H2/H3 ending in \"?\"). A short FAQ section captures voice & featured-snippet queries.",
+     "evidence": null
+    },
+    {
+     "id": "lead-answer",
+     "label": "Opening paragraph is a self-contained answer",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Lead paragraph is 24 words — answer engines favor a concise 25–140 word opening that states the answer up front.",
+     "evidence": "Learn the basics of SEO all in one place, including crawling, indexing, search engine ranking signals, choosing keywords, content freshness, anchor text, and more."
+    },
+    {
+     "id": "snippet-blocks",
+     "label": "Content has snippet-sized passages (30–90 words)",
+     "weight": 2,
+     "status": "warn",
+     "detail": "Only 2/9 paragraphs are snippet-sized — break up long walls of text.",
+     "evidence": null
+    },
+    {
+     "id": "list-table",
+     "label": "Lists / tables present",
+     "weight": 2,
+     "status": "pass",
+     "detail": "58 list items, 0 tables — answer engines parse these into direct answers.",
+     "evidence": null
+    },
+    {
+     "id": "plain-language",
+     "label": "Plain-language writing (Flesch ≥ 60)",
+     "weight": 2,
+     "status": "fail",
+     "detail": "Flesch Reading Ease 44.7 — dense writing is harder to extract into short answers.",
+     "evidence": null
+    },
+    {
+     "id": "dated-content",
+     "label": "Content carries a recency signal",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No visible dates at all — add a publish/updated date so answer engines can assess freshness.",
+     "evidence": null
+    },
+    {
+     "id": "qa-language",
+     "label": "Content speaks in explicit Q&A / definitions",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Content opens questions or definitions directly — the pattern answer engines extract from.",
+     "evidence": null
+    }
+   ]
+  },
+  "geo": {
+   "key": "GEO",
+   "description": "Would a generative engine confidently identify, trust, and cite this page?",
+   "score": 48.1,
+   "grade": "Needs work",
+   "color": "#ef4444",
+   "passCount": 3,
+   "warnCount": 5,
+   "failCount": 2,
+   "skipped": 0,
+   "checks": [
+    {
+     "id": "entity-id",
+     "label": "Entity self-identifies early & consistently",
+     "weight": 4,
+     "status": "fail",
+     "detail": "No consistent entity name found in title, H1, or opening text — generative engines cannot tell what/who this page is.",
+     "evidence": null
+    },
+    {
+     "id": "brand-consistency",
+     "label": "Brand name recurs consistently (citation signal)",
+     "weight": 3,
+     "status": "fail",
+     "detail": "Brand name never appears in the text body.",
+     "evidence": null
+    },
+    {
+     "id": "entity-authority",
+     "label": "Entity authority signals present",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Only 2 signal(s): About/team page linked; 7 social profile link(s) — add an About page, social links, credentials, and a dated byline.",
+     "evidence": null
+    },
+    {
+     "id": "stats-density",
+     "label": "Concrete statistics present to quote",
+     "weight": 3,
+     "status": "warn",
+     "detail": "No statistics found — generative engines prefer content with quotable numbers and data.",
+     "evidence": null
+    },
+    {
+     "id": "quotability",
+     "label": "Content is quotable (quotes + punchy sentences)",
+     "weight": 2,
+     "status": "pass",
+     "detail": "8 quoted passage(s), 18% short sentences — LLMs extract verbatim lines like these.",
+     "evidence": null
+    },
+    {
+     "id": "sourced-claims",
+     "label": "Claims are sourced / grounded",
+     "weight": 3,
+     "status": "warn",
+     "detail": "No attributions (\"according to…\", \"research shows…\") or authority links found — LLMs rank sourced statements above unsupported ones.",
+     "evidence": null
+    },
+    {
+     "id": "llm-readable",
+     "label": "Readable by LLMs (FK grade ≤ 11)",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Flesch-Kincaid grade 13.7 — simplify long sentences so models paraphrase accurately.",
+     "evidence": null
+    },
+    {
+     "id": "geo-freshness",
+     "label": "Recency signals for the model",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No dates found — add publish/update dates so models can weigh freshness.",
+     "evidence": null
+    },
+    {
+     "id": "distinctive",
+     "label": "Content is original, not boilerplate",
+     "weight": 2,
+     "status": "pass",
+     "detail": "No placeholder or template filler detected.",
+     "evidence": null
+    },
+    {
+     "id": "grounding",
+     "label": "Entity grounded in structured data (Organization/Person/Article…)",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Schema grounds the entity (Organization) — the same data feeds knowledge graphs models train on.",
+     "evidence": null
+    }
+   ]
+  }
+ },
+ "llm": null,
+ "page": {
+  "url": "https://backlinko.com/hub/seo",
+  "title": "SEO Marketing Hub",
+  "metaDescription": "The SEO Marketing Hub: a library of 30+ resources that cover basic and advanced search engine optimization concepts and techniques.",
+  "h1": "SEO Marketing Hub 2.0",
+  "wordCount": 456,
+  "sentenceCount": 17,
+  "flesch": 44.7,
+  "fkgl": 13.7,
+  "brandGuess": "Backlinko",
+  "schemaTypes": [
+   "Organization",
+   "WebSite",
+   "WebPage",
+   "ImageObject",
+   "BreadcrumbList"
+  ],
+  "hasRecentDate": false,
+  "links": {
+   "internal": 177,
+   "external": 8,
+   "nofollow": 0,
+   "about": 1,
+   "social": 7,
+   "total": 185,
+   "authority": 0
+  }
+ },
+ "screenshot": null
+}

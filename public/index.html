@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Search Visibility Analyzer — SEO · AEO · GEO</title>
+<link rel="stylesheet" href="/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔎</text></svg>" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#22d3ee"/>
+          </linearGradient>
+        </defs>
+        <circle cx="20" cy="20" r="17" fill="none" stroke="url(#lg)" stroke-width="3"/>
+        <circle cx="20" cy="20" r="10" fill="none" stroke="url(#lg)" stroke-width="3" opacity=".55"/>
+        <circle cx="20" cy="20" r="3.5" fill="url(#lg)"/>
+        <line x1="26.5" y1="26.5" x2="34" y2="34" stroke="url(#lg)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>Search Visibility Analyzer</h1>
+        <p class="tag">One URL · three engines · <b>SEO</b> clicks · <b>AEO</b> direct answers · <b>GEO</b> LLM citations</p>
+      </div>
+    </div>
+    <a class="gh" href="https://github.com/teryoooow/ai-search-visibility-analyzer" target="_blank" rel="noopener">View source ↗</a>
+  </header>
+
+  <main>
+    <!-- input -->
+    <section class="panel input-panel" id="inputPanel">
+      <form id="analyzeForm" autocomplete="off">
+        <div class="urlrow">
+          <span class="scheme">https://</span>
+          <input id="urlInput" type="text" placeholder="your-site.com or full URL" spellcheck="false" />
+          <button class="btn primary" id="goBtn" type="submit">Analyze</button>
+        </div>
+        <label class="llm-toggle" title="Runs an actual LLM over the page text to simulate how ChatGPT/Perplexity would read &amp; cite it (needs GEO_LLM_API_KEY on the server)">
+          <input type="checkbox" id="llmToggle" />
+          <span class="switch"></span>
+          <span>GEO LLM second opinion <em>optional</em></span>
+        </label>
+      </form>
+      <p class="hint">Enter any public URL — portfolio, store, resort, blog. Runs a real Chrome render + Lighthouse under the hood.</p>
+
+      <div class="legend" id="legend">
+        <div class="leg"><i class="dot" style="--c:#7c5cff"></i><div><b>SEO</b><span>Will Google find, rank &amp; get clicks?</span></div></div>
+        <div class="leg"><i class="dot" style="--c:#22d3ee"></i><div><b>AEO</b><span>Will Siri/voice/AI Overviews lift a direct answer?</span></div></div>
+        <div class="leg"><i class="dot" style="--c:#34d399"></i><div><b>GEO</b><span>Will ChatGPT &amp; Perplexity cite you?</span></div></div>
+      </div>
+    </section>
+
+    <!-- progress -->
+    <section class="panel progress-panel hidden" id="progressPanel">
+      <div class="prog-head">
+        <span id="phaseLabel">Working…</span><span id="phasePct">0%</span>
+      </div>
+      <div class="bar"><div id="barFill"></div></div>
+      <p class="hint" id="progressHint">First run launches headless Chrome — allow ~30–90&nbsp;s total.</p>
+    </section>
+
+    <!-- report -->
+    <section id="report" class="hidden">
+      <!-- scoreboard -->
+      <div class="scoreboard">
+        <div class="panel index-card">
+          <div class="index-ring" id="indexRing"></div>
+          <div class="index-meta">
+            <span class="grade" id="overallGrade">—</span>
+            <span class="index-label">Visibility Index</span>
+          </div>
+        </div>
+        <div class="panel cat-card" data-cat="seo">
+          <div class="cat-head"><span class="cat-dot" style="--c:#7c5cff"></span><b>SEO</b><span class="cat-sub">clicks</span></div>
+          <div class="ring" id="ring-seo"></div>
+          <div class="cat-counts" id="counts-seo"></div>
+        </div>
+        <div class="panel cat-card" data-cat="aeo">
+          <div class="cat-head"><span class="cat-dot" style="--c:#22d3ee"></span><b>AEO</b><span class="cat-sub">direct answers</span></div>
+          <div class="ring" id="ring-aeo"></div>
+          <div class="cat-counts" id="counts-aeo"></div>
+        </div>
+        <div class="panel cat-card" data-cat="geo">
+          <div class="cat-head"><span class="cat-dot" style="--c:#34d399"></span><b>GEO</b><span class="cat-sub">LLM citations</span></div>
+          <div class="ring" id="ring-geo"></div>
+          <div class="cat-counts" id="counts-geo"></div>
+        </div>
+      </div>
+
+      <!-- meta strip -->
+      <div class="panel meta-strip" id="metaStrip"></div>
+
+      <!-- body -->
+      <div class="layout2">
+        <div class="panel shot-panel" id="shotPanel">
+          <div class="panel-title">Rendered page <span class="muted">(headless Chrome)</span></div>
+          <div class="shot-frame"><img id="shotImg" alt="Page screenshot" /></div>
+        </div>
+        <div class="rightcol">
+          <div class="panel summary-panel">
+            <div class="panel-title">Executive summary</div>
+            <p id="summaryText"></p>
+          </div>
+          <div class="panel actions-panel">
+            <div class="panel-title">Fix these first <span class="muted" id="actionCount"></span></div>
+            <ol id="actionsList"></ol>
+          </div>
+          <div class="panel llm-panel hidden" id="llmPanel">
+            <div class="panel-title">LLM second opinion <span class="chip" id="llmChip"></span></div>
+            <div id="llmBody"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- category detail -->
+      <div class="panel detail-panel">
+        <div class="panel-title">Signal-level breakdown</div>
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-tab="seo">SEO</button>
+          <button class="tab" data-tab="aeo">AEO</button>
+          <button class="tab" data-tab="geo">GEO</button>
+        </div>
+        <div class="cat-desc" id="catDesc"></div>
+        <div id="checks"></div>
+      </div>
+
+      <!-- export -->
+      <div class="export-row">
+        <button class="btn ghost" id="exportJson">⬇ Export JSON</button>
+        <button class="btn ghost" id="exportMd">⬇ Export Markdown</button>
+        <button class="btn ghost" id="newAnalysis">↺ Analyze another URL</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Core Web Vitals are <b>lab-based</b> (mobile-emulated, simulated throttling) — pair with CrUX field data for production calls. Heuristic checks are explainable by design; nothing here is a black box.</p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

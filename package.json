@@ -1,0 +1,42 @@
+{
+  "name": "ai-search-visibility-analyzer",
+  "version": "1.0.0",
+  "description": "SEO/AEO/GEO Search Visibility Analyzer — audits any URL for traditional search, answer-engine, and generative-engine readiness",
+  "type": "module",
+  "main": "server.js",
+  "bin": {
+    "visibility-analyze": "./cli.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "analyze": "node cli.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "seo",
+    "aeo",
+    "geo",
+    "generative-engine-optimization",
+    "core-web-vitals",
+    "lighthouse",
+    "schema",
+    "llm",
+    "notion",
+    "n8n"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "chrome-launcher": "^1.2.1",
+    "express": "^5.1.0",
+    "lighthouse": "^13.4.1",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.0"
+  }
+}

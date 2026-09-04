@@ -1,0 +1,398 @@
+{
+ "meta": {
+  "analyzedAt": "2026-09-04T08:34:22.489Z",
+  "durationMs": 20579,
+  "targetUrl": "https://teryoooow.github.io/edens-private-pool/",
+  "finalUrl": "https://teryoooow.github.io/edens-private-pool/",
+  "host": "teryoooow.github.io",
+  "httpStatus": 200,
+  "mimeType": "text/html",
+  "toolVersion": "1.0.0",
+  "lighthouseVersion": "13.4.1",
+  "llmUsed": false
+ },
+ "overview": {
+  "visibilityIndex": 74.1,
+  "grade": "Good",
+  "summary": "645 words of rendered text were analyzed across 39 SEO/AEO/GEO checks. Strongest category: AEO (78.3/100). Most urgent: SEO (71.8/100) — will search engines find, index, and get clicks for this page?"
+ },
+ "categories": {
+  "seo": {
+   "key": "SEO",
+   "description": "Will search engines find, index, and get clicks for this page?",
+   "score": 71.8,
+   "grade": "Good",
+   "color": "#84cc16",
+   "passCount": 11,
+   "warnCount": 6,
+   "failCount": 2,
+   "skipped": 0,
+   "checks": [
+    {
+     "id": "http-status",
+     "label": "Document returns HTTP 200",
+     "weight": 2,
+     "status": "pass",
+     "detail": "HTTP 200 — indexable response.",
+     "evidence": null
+    },
+    {
+     "id": "title",
+     "label": "Title tag present & well-sized",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Title is 67 chars (aim ≤60 — long titles get truncated in SERPs): \"Eden's Private Pool — Private Pool Rental in Angeles City, Pampanga\"",
+     "evidence": "Eden's Private Pool — Private Pool Rental in Angeles City, Pampanga"
+    },
+    {
+     "id": "meta-description",
+     "label": "Meta description present (click-through driver)",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Description is 158 chars.",
+     "evidence": "Eden's Private Pool — a private, gated pool in Tabun, Angeles City, Pampanga. By reservation only. Book your date online and confirm with a GCash downpayment."
+    },
+    {
+     "id": "indexability",
+     "label": "Page is indexable (no noindex)",
+     "weight": 3,
+     "status": "pass",
+     "detail": "No robots meta — defaults to index,follow.",
+     "evidence": null
+    },
+    {
+     "id": "robots-txt",
+     "label": "robots.txt allows crawling",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No robots.txt found — crawling is allowed by default, but a file lets you control it.",
+     "evidence": null
+    },
+    {
+     "id": "sitemap",
+     "label": "XML sitemap available",
+     "weight": 1,
+     "status": "warn",
+     "detail": "Sitemap could not be verified.",
+     "evidence": null
+    },
+    {
+     "id": "canonical",
+     "label": "Canonical URL declared",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No canonical tag — duplicate-content risk if this URL is reachable via multiple paths/params.",
+     "evidence": null
+    },
+    {
+     "id": "h1",
+     "label": "Exactly one H1 heading",
+     "weight": 2,
+     "status": "pass",
+     "detail": "H1: \"Eden's Private Pool\"",
+     "evidence": null
+    },
+    {
+     "id": "hierarchy",
+     "label": "Heading hierarchy has no skipped levels",
+     "weight": 1,
+     "status": "pass",
+     "detail": "16 headings with a clean hierarchy.",
+     "evidence": null
+    },
+    {
+     "id": "https",
+     "label": "Served over HTTPS",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Page loads over HTTPS.",
+     "evidence": null
+    },
+    {
+     "id": "viewport",
+     "label": "Mobile viewport configured",
+     "weight": 2,
+     "status": "pass",
+     "detail": "viewport meta present — mobile-first indexing ready.",
+     "evidence": null
+    },
+    {
+     "id": "lcp",
+     "label": "Core Web Vitals — LCP",
+     "weight": 3,
+     "status": "fail",
+     "detail": "Largest Contentful Paint: 6.29s — poor (target ≤ 2.5s).",
+     "evidence": "loading"
+    },
+    {
+     "id": "cls",
+     "label": "Core Web Vitals — CLS",
+     "weight": 3,
+     "status": "pass",
+     "detail": "Cumulative Layout Shift: 0.03 — good (target ≤ 0.1).",
+     "evidence": "stability"
+    },
+    {
+     "id": "tbt",
+     "label": "Core Web Vitals — responsiveness",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Total Blocking Time: 440ms — needs improvement (target ≤ 200ms).",
+     "evidence": "interactivity"
+    },
+    {
+     "id": "perf-score",
+     "label": "Lighthouse performance score",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Lighthouse performance score 66/100 (mobile, simulated throttling).",
+     "evidence": "13.4.1"
+    },
+    {
+     "id": "content-depth",
+     "label": "Substantial content on page",
+     "weight": 2,
+     "status": "pass",
+     "detail": "645 words of readable text.",
+     "evidence": null
+    },
+    {
+     "id": "img-alt",
+     "label": "Images have alt text",
+     "weight": 1,
+     "status": "pass",
+     "detail": "All 7 images have alt text.",
+     "evidence": null
+    },
+    {
+     "id": "semantic",
+     "label": "Semantic HTML5 landmarks used",
+     "weight": 1,
+     "status": "pass",
+     "detail": "Found 4/5 landmarks (main/article/nav/header/footer).",
+     "evidence": null
+    },
+    {
+     "id": "internal-links",
+     "label": "Internal links present",
+     "weight": 1,
+     "status": "fail",
+     "detail": "No internal links found — if this is not the homepage, crawlers may never find it.",
+     "evidence": null
+    }
+   ]
+  },
+  "aeo": {
+   "key": "AEO",
+   "description": "Can answer engines extract one clear, citable answer from this page?",
+   "score": 78.3,
+   "grade": "Good",
+   "color": "#84cc16",
+   "passCount": 6,
+   "warnCount": 4,
+   "failCount": 0,
+   "skipped": 0,
+   "checks": [
+    {
+     "id": "schema-valid",
+     "label": "Schema.org markup parses cleanly",
+     "weight": 2,
+     "status": "pass",
+     "detail": "1 valid JSON-LD block found.",
+     "evidence": null
+    },
+    {
+     "id": "schema-types",
+     "label": "High-value schema types present",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Types detected: LocalBusiness.",
+     "evidence": "LocalBusiness"
+    },
+    {
+     "id": "schema-quality",
+     "label": "Schema entities carry required fields",
+     "weight": 3,
+     "status": "pass",
+     "detail": "1/1 validated entities are complete.",
+     "evidence": null
+    },
+    {
+     "id": "faq-content",
+     "label": "Question-style headings present (FAQ-ready)",
+     "weight": 3,
+     "status": "warn",
+     "detail": "No question-shaped headings (H2/H3 ending in \"?\"). A short FAQ section captures voice & featured-snippet queries.",
+     "evidence": null
+    },
+    {
+     "id": "lead-answer",
+     "label": "Opening paragraph is a self-contained answer",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Lead paragraph is 7 words — answer engines favor a concise 25–140 word opening that states the answer up front.",
+     "evidence": "Private pool rental · Angeles City, Pampanga"
+    },
+    {
+     "id": "snippet-blocks",
+     "label": "Content has snippet-sized passages (30–90 words)",
+     "weight": 2,
+     "status": "warn",
+     "detail": "Only 1/27 paragraphs are snippet-sized — break up long walls of text.",
+     "evidence": null
+    },
+    {
+     "id": "list-table",
+     "label": "Lists / tables present",
+     "weight": 2,
+     "status": "pass",
+     "detail": "18 list items, 0 tables — answer engines parse these into direct answers.",
+     "evidence": null
+    },
+    {
+     "id": "plain-language",
+     "label": "Plain-language writing (Flesch ≥ 60)",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Flesch Reading Ease 64.5 — conversational and easy to quote.",
+     "evidence": null
+    },
+    {
+     "id": "dated-content",
+     "label": "Content carries a recency signal",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No visible dates at all — add a publish/updated date so answer engines can assess freshness.",
+     "evidence": null
+    },
+    {
+     "id": "qa-language",
+     "label": "Content speaks in explicit Q&A / definitions",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Content opens questions or definitions directly — the pattern answer engines extract from.",
+     "evidence": null
+    }
+   ]
+  },
+  "geo": {
+   "key": "GEO",
+   "description": "Would a generative engine confidently identify, trust, and cite this page?",
+   "score": 72.2,
+   "grade": "Good",
+   "color": "#84cc16",
+   "passCount": 5,
+   "warnCount": 4,
+   "failCount": 1,
+   "skipped": 0,
+   "checks": [
+    {
+     "id": "entity-id",
+     "label": "Entity self-identifies early & consistently",
+     "weight": 4,
+     "status": "pass",
+     "detail": "Brand/entity \"Eden's Private Pool\" appears in title, H1, first 100 words — an LLM can resolve who this is.",
+     "evidence": null
+    },
+    {
+     "id": "brand-consistency",
+     "label": "Brand name recurs consistently (citation signal)",
+     "weight": 3,
+     "status": "pass",
+     "detail": "\"Eden's Private Pool\" appears 4× across the page, including the footer — repeated, consistent naming is what LLMs cite.",
+     "evidence": null
+    },
+    {
+     "id": "entity-authority",
+     "label": "Entity authority signals present",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Only 1 signal(s): 3 social profile link(s) — add an About page, social links, credentials, and a dated byline.",
+     "evidence": null
+    },
+    {
+     "id": "stats-density",
+     "label": "Concrete statistics present to quote",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Only ~3.1 stat-bearing phrases per 100 words — add concrete numbers (users, %, years, ratings) LLMs can lift.",
+     "evidence": "15 guests · 15 guests"
+    },
+    {
+     "id": "quotability",
+     "label": "Content is quotable (quotes + punchy sentences)",
+     "weight": 2,
+     "status": "pass",
+     "detail": "0 quoted passage(s), 84% short sentences — LLMs extract verbatim lines like these.",
+     "evidence": null
+    },
+    {
+     "id": "sourced-claims",
+     "label": "Claims are sourced / grounded",
+     "weight": 3,
+     "status": "warn",
+     "detail": "No attributions (\"according to…\", \"research shows…\") or authority links found — LLMs rank sourced statements above unsupported ones.",
+     "evidence": null
+    },
+    {
+     "id": "llm-readable",
+     "label": "Readable by LLMs (FK grade ≤ 11)",
+     "weight": 3,
+     "status": "pass",
+     "detail": "Flesch-Kincaid grade 7.4 — model-friendly prose.",
+     "evidence": null
+    },
+    {
+     "id": "geo-freshness",
+     "label": "Recency signals for the model",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No dates found — add publish/update dates so models can weigh freshness.",
+     "evidence": null
+    },
+    {
+     "id": "distinctive",
+     "label": "Content is original, not boilerplate",
+     "weight": 2,
+     "status": "fail",
+     "detail": "Boilerplate/placeholder text detected (\"placeholder\") — models ignore and de-rank template content.",
+     "evidence": null
+    },
+    {
+     "id": "grounding",
+     "label": "Entity grounded in structured data (Organization/Person/Article…)",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Schema grounds the entity (LocalBusiness) — the same data feeds knowledge graphs models train on.",
+     "evidence": null
+    }
+   ]
+  }
+ },
+ "llm": null,
+ "page": {
+  "url": "https://teryoooow.github.io/edens-private-pool/",
+  "title": "Eden's Private Pool — Private Pool Rental in Angeles City, Pampanga",
+  "metaDescription": "Eden's Private Pool — a private, gated pool in Tabun, Angeles City, Pampanga. By reservation only. Book your date online and confirm with a GCash downpayment.",
+  "h1": "Eden's Private Pool",
+  "wordCount": 645,
+  "sentenceCount": 51,
+  "flesch": 64.5,
+  "fkgl": 7.4,
+  "brandGuess": "Eden's Private Pool",
+  "schemaTypes": [
+   "LocalBusiness"
+  ],
+  "hasRecentDate": false,
+  "links": {
+   "internal": 0,
+   "external": 4,
+   "nofollow": 0,
+   "about": 0,
+   "social": 3,
+   "total": 4,
+   "authority": 0
+  }
+ },
+ "screenshot": null
+}

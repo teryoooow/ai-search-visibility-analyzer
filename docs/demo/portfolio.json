@@ -1,0 +1,396 @@
+{
+ "meta": {
+  "analyzedAt": "2026-09-04T08:36:34.561Z",
+  "durationMs": 18024,
+  "targetUrl": "https://teryoooow.github.io/",
+  "finalUrl": "https://teryoooow.github.io/",
+  "host": "teryoooow.github.io",
+  "httpStatus": 200,
+  "mimeType": "text/html",
+  "toolVersion": "1.0.0",
+  "lighthouseVersion": "13.4.1",
+  "llmUsed": false
+ },
+ "overview": {
+  "visibilityIndex": 72.9,
+  "grade": "Good",
+  "summary": "1126 words of rendered text were analyzed across 37 SEO/AEO/GEO checks. Strongest category: SEO (91/100). Most urgent: AEO (61.1/100) — can answer engines extract one clear, citable answer from this page?"
+ },
+ "categories": {
+  "seo": {
+   "key": "SEO",
+   "description": "Will search engines find, index, and get clicks for this page?",
+   "score": 91,
+   "grade": "Excellent",
+   "color": "#22c55e",
+   "passCount": 15,
+   "warnCount": 4,
+   "failCount": 0,
+   "skipped": 0,
+   "checks": [
+    {
+     "id": "http-status",
+     "label": "Document returns HTTP 200",
+     "weight": 2,
+     "status": "pass",
+     "detail": "HTTP 200 — indexable response.",
+     "evidence": null
+    },
+    {
+     "id": "title",
+     "label": "Title tag present & well-sized",
+     "weight": 3,
+     "status": "pass",
+     "detail": "Title is 39 chars — good SERP length.",
+     "evidence": "Terelle Sarmiento — Automation Engineer"
+    },
+    {
+     "id": "meta-description",
+     "label": "Meta description present (click-through driver)",
+     "weight": 2,
+     "status": "warn",
+     "detail": "Description is 203 chars (aim ≤160 — may truncate): \"Terelle Sarmiento — Automation engineer focused on n8n workflow automation, with a QA foundation in mobile & web testing, test automation (Cypress, Appium, Maestro) and performance testing (k6, Grafana).\"",
+     "evidence": "Terelle Sarmiento — Automation engineer focused on n8n workflow automation, with a QA foundation in mobile & web testing, test automation (Cypress, Appium, Maestro) and performance testing (k6, Grafana)."
+    },
+    {
+     "id": "indexability",
+     "label": "Page is indexable (no noindex)",
+     "weight": 3,
+     "status": "pass",
+     "detail": "No robots meta — defaults to index,follow.",
+     "evidence": null
+    },
+    {
+     "id": "robots-txt",
+     "label": "robots.txt allows crawling",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No robots.txt found — crawling is allowed by default, but a file lets you control it.",
+     "evidence": null
+    },
+    {
+     "id": "sitemap",
+     "label": "XML sitemap available",
+     "weight": 1,
+     "status": "warn",
+     "detail": "Sitemap could not be verified.",
+     "evidence": null
+    },
+    {
+     "id": "canonical",
+     "label": "Canonical URL declared",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No canonical tag — duplicate-content risk if this URL is reachable via multiple paths/params.",
+     "evidence": null
+    },
+    {
+     "id": "h1",
+     "label": "Exactly one H1 heading",
+     "weight": 2,
+     "status": "pass",
+     "detail": "H1: \"TerelleSarmiento.\"",
+     "evidence": null
+    },
+    {
+     "id": "hierarchy",
+     "label": "Heading hierarchy has no skipped levels",
+     "weight": 1,
+     "status": "pass",
+     "detail": "23 headings with a clean hierarchy.",
+     "evidence": null
+    },
+    {
+     "id": "https",
+     "label": "Served over HTTPS",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Page loads over HTTPS.",
+     "evidence": null
+    },
+    {
+     "id": "viewport",
+     "label": "Mobile viewport configured",
+     "weight": 2,
+     "status": "pass",
+     "detail": "viewport meta present — mobile-first indexing ready.",
+     "evidence": null
+    },
+    {
+     "id": "lcp",
+     "label": "Core Web Vitals — LCP",
+     "weight": 3,
+     "status": "pass",
+     "detail": "Largest Contentful Paint: 1.66s — good (target ≤ 2.5s).",
+     "evidence": "loading"
+    },
+    {
+     "id": "cls",
+     "label": "Core Web Vitals — CLS",
+     "weight": 3,
+     "status": "pass",
+     "detail": "Cumulative Layout Shift: 0 — good (target ≤ 0.1).",
+     "evidence": "stability"
+    },
+    {
+     "id": "tbt",
+     "label": "Core Web Vitals — responsiveness",
+     "weight": 3,
+     "status": "pass",
+     "detail": "Total Blocking Time: 58ms — good (target ≤ 200ms).",
+     "evidence": "interactivity"
+    },
+    {
+     "id": "perf-score",
+     "label": "Lighthouse performance score",
+     "weight": 3,
+     "status": "pass",
+     "detail": "Lighthouse performance score 99/100 (mobile, simulated throttling).",
+     "evidence": "13.4.1"
+    },
+    {
+     "id": "content-depth",
+     "label": "Substantial content on page",
+     "weight": 2,
+     "status": "pass",
+     "detail": "1126 words of readable text.",
+     "evidence": null
+    },
+    {
+     "id": "img-alt",
+     "label": "Images have alt text",
+     "weight": 1,
+     "status": "pass",
+     "detail": "All 1 images have alt text.",
+     "evidence": null
+    },
+    {
+     "id": "semantic",
+     "label": "Semantic HTML5 landmarks used",
+     "weight": 1,
+     "status": "pass",
+     "detail": "Found 5/5 landmarks (main/article/nav/header/footer).",
+     "evidence": null
+    },
+    {
+     "id": "internal-links",
+     "label": "Internal links present",
+     "weight": 1,
+     "status": "pass",
+     "detail": "11 internal links — the page is reachable and distributes authority.",
+     "evidence": null
+    }
+   ]
+  },
+  "aeo": {
+   "key": "AEO",
+   "description": "Can answer engines extract one clear, citable answer from this page?",
+   "score": 61.1,
+   "grade": "Fair",
+   "color": "#f59e0b",
+   "passCount": 3,
+   "warnCount": 4,
+   "failCount": 1,
+   "skipped": 2,
+   "checks": [
+    {
+     "id": "schema-valid",
+     "label": "Schema.org markup parses cleanly",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No JSON-LD found. Schema is the fastest way to tell answer engines exactly what this page is.",
+     "evidence": null
+    },
+    {
+     "id": "schema-types",
+     "label": "High-value schema types present",
+     "weight": 2,
+     "status": "skip",
+     "detail": "No valid schema to evaluate.",
+     "evidence": null
+    },
+    {
+     "id": "schema-quality",
+     "label": "Schema entities carry required fields",
+     "weight": 3,
+     "status": "skip",
+     "detail": "No schema entities to evaluate.",
+     "evidence": null
+    },
+    {
+     "id": "faq-content",
+     "label": "Question-style headings present (FAQ-ready)",
+     "weight": 3,
+     "status": "warn",
+     "detail": "No question-shaped headings (H2/H3 ending in \"?\"). A short FAQ section captures voice & featured-snippet queries.",
+     "evidence": null
+    },
+    {
+     "id": "lead-answer",
+     "label": "Opening paragraph is a self-contained answer",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Lead paragraph is 8 words — answer engines favor a concise 25–140 word opening that states the answer up front.",
+     "evidence": "Automation Engineer — n8n Workflows & Process Automation"
+    },
+    {
+     "id": "snippet-blocks",
+     "label": "Content has snippet-sized passages (30–90 words)",
+     "weight": 2,
+     "status": "warn",
+     "detail": "Only 1/14 paragraphs are snippet-sized — break up long walls of text.",
+     "evidence": null
+    },
+    {
+     "id": "list-table",
+     "label": "Lists / tables present",
+     "weight": 2,
+     "status": "pass",
+     "detail": "20 list items, 0 tables — answer engines parse these into direct answers.",
+     "evidence": null
+    },
+    {
+     "id": "plain-language",
+     "label": "Plain-language writing (Flesch ≥ 60)",
+     "weight": 2,
+     "status": "fail",
+     "detail": "Flesch Reading Ease 22.1 — dense writing is harder to extract into short answers.",
+     "evidence": null
+    },
+    {
+     "id": "dated-content",
+     "label": "Content carries a recency signal",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Freshness signal found (2024,2025) — answer engines prefer dated, current content.",
+     "evidence": null
+    },
+    {
+     "id": "qa-language",
+     "label": "Content speaks in explicit Q&A / definitions",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Content opens questions or definitions directly — the pattern answer engines extract from.",
+     "evidence": null
+    }
+   ]
+  },
+  "geo": {
+   "key": "GEO",
+   "description": "Would a generative engine confidently identify, trust, and cite this page?",
+   "score": 66.7,
+   "grade": "Fair",
+   "color": "#f59e0b",
+   "passCount": 4,
+   "warnCount": 6,
+   "failCount": 0,
+   "skipped": 0,
+   "checks": [
+    {
+     "id": "entity-id",
+     "label": "Entity self-identifies early & consistently",
+     "weight": 4,
+     "status": "warn",
+     "detail": "Brand/entity \"Terelle Sarmiento\" found in title, first 100 words but not H1 — strengthen early self-identification.",
+     "evidence": null
+    },
+    {
+     "id": "brand-consistency",
+     "label": "Brand name recurs consistently (citation signal)",
+     "weight": 3,
+     "status": "warn",
+     "detail": "\"Terelle Sarmiento\" appears only 1× — echo the brand in headings, body copy, and footer.",
+     "evidence": null
+    },
+    {
+     "id": "entity-authority",
+     "label": "Entity authority signals present",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Only 2 signal(s): 12 social profile link(s); contact email/phone on page — add an About page, social links, credentials, and a dated byline.",
+     "evidence": null
+    },
+    {
+     "id": "stats-density",
+     "label": "Concrete statistics present to quote",
+     "weight": 3,
+     "status": "warn",
+     "detail": "No statistics found — generative engines prefer content with quotable numbers and data.",
+     "evidence": null
+    },
+    {
+     "id": "quotability",
+     "label": "Content is quotable (quotes + punchy sentences)",
+     "weight": 2,
+     "status": "pass",
+     "detail": "0 quoted passage(s), 68% short sentences — LLMs extract verbatim lines like these.",
+     "evidence": null
+    },
+    {
+     "id": "sourced-claims",
+     "label": "Claims are sourced / grounded",
+     "weight": 3,
+     "status": "pass",
+     "detail": "Attribution language found (data from) — grounded claims earn model trust.",
+     "evidence": null
+    },
+    {
+     "id": "llm-readable",
+     "label": "Readable by LLMs (FK grade ≤ 11)",
+     "weight": 3,
+     "status": "warn",
+     "detail": "Flesch-Kincaid grade 13.8 — simplify long sentences so models paraphrase accurately.",
+     "evidence": null
+    },
+    {
+     "id": "geo-freshness",
+     "label": "Recency signals for the model",
+     "weight": 2,
+     "status": "pass",
+     "detail": "Recent-dated content (2024,2025) — models prefer current sources.",
+     "evidence": null
+    },
+    {
+     "id": "distinctive",
+     "label": "Content is original, not boilerplate",
+     "weight": 2,
+     "status": "pass",
+     "detail": "No placeholder or template filler detected.",
+     "evidence": null
+    },
+    {
+     "id": "grounding",
+     "label": "Entity grounded in structured data (Organization/Person/Article…)",
+     "weight": 2,
+     "status": "warn",
+     "detail": "No entity schema — structured data helps models and knowledge graphs resolve the brand.",
+     "evidence": null
+    }
+   ]
+  }
+ },
+ "llm": null,
+ "page": {
+  "url": "https://teryoooow.github.io/",
+  "title": "Terelle Sarmiento — Automation Engineer",
+  "metaDescription": "Terelle Sarmiento — Automation engineer focused on n8n workflow automation, with a QA foundation in mobile & web testing, test automation (Cypress, Appium, Maestro) and performance testing (k6, Grafana).",
+  "h1": "TerelleSarmiento.",
+  "wordCount": 1126,
+  "sentenceCount": 77,
+  "flesch": 22.1,
+  "fkgl": 13.8,
+  "brandGuess": "Terelle Sarmiento",
+  "schemaTypes": [],
+  "hasRecentDate": true,
+  "links": {
+   "internal": 11,
+   "external": 14,
+   "nofollow": 0,
+   "about": 0,
+   "social": 12,
+   "total": 25,
+   "authority": 0
+  }
+ },
+ "screenshot": null
+}
