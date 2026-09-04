@@ -17,8 +17,23 @@ cite the page.
 
 ## Quick start
 
+### Option A — Docker (easiest for reviewers: nothing but Docker required)
+
+```bash
+docker build -t visibility-analyzer .
+docker run -p 3100:3100 visibility-analyzer
+# → open http://localhost:3100
+```
+
+No Node.js and no Chrome install needed on the host — the image bundles
+headless Chromium. (Optional LLM layer:
+`docker run -p 3100:3100 -e GEO_LLM_API_KEY=sk-... visibility-analyzer`.)
+
+### Option B — Local (Node.js ≥ 18 + Chrome/Chromium)
+
 Requires **Node.js ≥ 18** and **Chrome/Chromium** (Lighthouse runs the page in
-headless Chrome; it auto-detects a normal install on Windows/macOS/Linux).
+headless Chrome; it auto-detects a normal install on Windows/macOS/Linux, or
+point it at one via the `CHROME_PATH` env var).
 
 ```bash
 npm install
@@ -30,6 +45,14 @@ npm start
 node cli.js https://your-site.com
 node cli.js https://your-site.com --json report.json --md report.md --shot screenshot.jpg
 ```
+
+### Option C — no install at all
+
+Watch the demo: the screenshots in this README, the sample reports under
+[`docs/demo/`](docs/demo/) (JSON + Markdown), and the 2-page walkthrough PDF
+that accompanies this submission. A live walkthrough call can be arranged.
+
+---
 
 Open the UI, paste a URL, hit **Analyze**. First run takes ~30–90 s (Chrome
 launch + Lighthouse); the page shows live progress and renders a full report:
@@ -130,6 +153,7 @@ as regression samples — re-run any of them after a code change and diff.
 ## Repository layout
 
 ```
+Dockerfile  .dockerignore
 cli.js  server.js  package.json
 src/
   analyze.js        pipeline orchestrator (progress callbacks)
@@ -163,6 +187,18 @@ This challenge required four artifacts — all in this repo:
 2. **Process documentation** — [`docs/PROCESS.md`](docs/PROCESS.md) (tooling rationale, extraction techniques, prompt engineering, architecture).
 3. **Business value justification** — [`docs/BUSINESS_VALUE.md`](docs/BUSINESS_VALUE.md).
 4. **Product roadmap** — [`docs/ROADMAP.md`](docs/ROADMAP.md) (five prioritized upgrades).
+
+## Troubleshooting for evaluators
+
+- **"Could not find Chrome"** → install Chrome/Chromium, or set `CHROME_PATH` to
+  your binary (Windows: `C:\Program Files\Google\Chrome\Application\chrome.exe`).
+- **Analysis fails instantly with a timeout/network error** → the target site may
+  block datacenter IPs (Docker) or your network egress; try another public URL
+  or run locally.
+- **Headless Linux (no Docker)** → install `chromium` + its dependencies, set
+  `CHROME_PATH`; the launcher already passes `--no-sandbox` where needed.
+- **Everything else** → the app never crashes silently: every failure path
+  returns a plain-English error in the UI/CLI. File an issue on the repo.
 
 ## Honest limitations
 
