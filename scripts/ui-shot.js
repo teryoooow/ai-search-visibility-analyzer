@@ -27,7 +27,7 @@ try {
   await cdp.send('Network.enable');
 
   // 1. open the UI
-  await cdp.send('Page.navigate', { url: 'http://localhost:3100' });
+  await cdp.send('Page.navigate', { url: process.env.UI_URL || 'http://localhost:3100' });
   await sleep(2500);
 
   // 2. fill URL + (optionally) tick the LLM toggle + click Analyze

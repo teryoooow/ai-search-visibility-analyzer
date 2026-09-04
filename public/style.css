@@ -39,12 +39,14 @@ body { min-height: 100vh; background:
 /* ---------- layout ---------- */
 main { max-width: 1200px; margin: 0 auto; padding: 26px 28px 60px; display: flex; flex-direction: column; gap: 18px; }
 .panel { background: linear-gradient(180deg, var(--panel), var(--bg2)); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+#report { display: flex; flex-direction: column; gap: 18px; }
 
 /* ---------- input ---------- */
-.urlrow { display: flex; gap: 10px; align-items: stretch; }
+.urlrow { display: flex; align-items: stretch; }
 .scheme { display: flex; align-items: center; color: var(--muted); background: var(--panel2); border: 1px solid var(--line); border-right: 0; border-radius: 10px 0 0 10px; padding: 0 0 0 14px; font-size: 13px; }
-#urlInput { flex: 1; background: var(--panel2); border: 1px solid var(--line); border-left: 0; border-radius: 0 10px 0 0; color: var(--text); font-size: 15px; padding: 13px 14px; outline: none; font-family: var(--mono); }
+#urlInput { flex: 1; background: var(--panel2); border: 1px solid var(--line); border-left: 0; border-radius: 0; color: var(--text); font-size: 15px; padding: 13px 14px; outline: none; font-family: var(--mono); }
 #urlInput:focus { border-color: var(--accent); }
+.urlrow:focus-within .scheme { border-color: var(--accent); }
 .btn { border: 0; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; padding: 0 20px; transition: .15s; }
 .btn.primary { background: linear-gradient(135deg, #7c5cff, #5b8cff); color: #fff; }
 .btn.primary:hover { filter: brightness(1.12); }
@@ -150,5 +152,5 @@ footer b { color: var(--muted); }
   .scoreboard { grid-template-columns: 1fr; }
   .urlrow { flex-wrap: wrap; }
   .scheme { display: none; }
-  #urlInput { border-radius: 10px 0 0 10px; }
+  #urlInput { border-left: 1px solid var(--line); border-radius: 10px 0 0 10px; }
 }
