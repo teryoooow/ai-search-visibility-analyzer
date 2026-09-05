@@ -64,8 +64,9 @@ Key decisions:
 - **Deterministic core + GEO LLM analysis on by default.** Scores never depend on an
   external model (see §4). This is the single most important architecture
   decision: the scoring core is deterministic and reproducible, while the GEO
-  LLM analysis — the main GEO function — runs by default on every analysis
-  (per-run opt-out available) to report how a
+  LLM analysis — the main GEO function — runs on every analysis (no toggle,
+  no opt-out): once a key is configured the LLM read always runs, and without
+  a key the report explicitly notes it was skipped. It reports how a
   generative engine would actually read and cite the page. The LLM informs the
   GEO verdict but never decides a score.
 
@@ -108,10 +109,11 @@ explainable signals**. Techniques used, roughly in pipeline order:
 
 The deterministic checks answer *"are the signals there?"* The GEO LLM analysis
 answers the question a score can't: **"if a generative engine read this page
-right now, would it cite it — and why not?"** It is the main GEO function and
-is **on by default**: the UI checkbox is pre-checked, the CLI and API default
-to it, and only an explicit per-run opt-out (`--no-llm`, `useLlm: false`)
-disables it.
+right now, would it cite it — and why not?**" It is the main GEO function and
+is **always on**: there is no UI toggle, CLI flag, or API option to disable
+it — every analysis runs the LLM read whenever a key is configured, and
+keyless runs complete on the deterministic core with the report explicitly
+noting the read was skipped.
 
 **Design constraint (the most important prompt decision):** the LLM never
 produces a score that feeds the index. Its verdict is surfaced as a labeled

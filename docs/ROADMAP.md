@@ -77,7 +77,7 @@ analyzer today. Every agent integration would otherwise mean re-implementing
 the audit logic badly, inside each tool.
 
 **Build:** wrap the existing pipeline in a **Model Context Protocol (MCP)
-server** exposing one tool — `analyze_url(url, { useLlm })` → returns the
+server** exposing one tool — `analyze_url(url)` → returns the
 report's JSON contract (Visibility Index, SEO/AEO/GEO category scores, and the
 check list with evidence). MCP is the standard connector in 2026: any MCP
 client (Claude Desktop, Cursor, n8n's MCP node, VS Code agents) gains
