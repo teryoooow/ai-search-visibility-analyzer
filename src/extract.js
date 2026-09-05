@@ -263,7 +263,7 @@ export function extractPageModel(html, url) {
     listItems,
     tables,
     hiddenContentChars,
-    // trimmed raw text for the optional LLM layer (never stored in reports)
+    // trimmed raw text for the GEO LLM analysis (never stored in reports)
     llmText: truncateForLLM(cleanText),
   };
 }

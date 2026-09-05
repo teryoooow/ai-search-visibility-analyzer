@@ -72,7 +72,7 @@
 - ✅ **Content is original, not boilerplate** — No placeholder or template filler detected.
 - ⚠️ **Entity grounded in structured data (Organization/Person/Article…)** — No entity schema — structured data helps models and knowledge graphs resolve the brand.
 
-## GEO — LLM Second Opinion
+## GEO LLM Analysis
 
 > Simulated generative-engine read (model: deepseek-chat)
 

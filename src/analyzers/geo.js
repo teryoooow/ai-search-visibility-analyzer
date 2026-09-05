@@ -2,9 +2,10 @@
 // AI Overviews). Question answered: "Can an LLM confidently identify this
 // entity, trust it, and quote/cite it in an answer?"
 //
-// GEO is scored deterministically from verifiable on-page signals; an optional
-// LLM "second opinion" pass (see geo-llm.js) enriches the report but the
-// score never depends on an external model.
+// GEO has two complementary halves: deterministic scoring from verifiable
+// on-page signals (below) and the main GEO LLM analysis (see geo-llm.js),
+// which runs on every report and reads the page the way a generative engine
+// would. The deterministic score never depends on the external model.
 
 import { makeCheck, finalizeCategory } from '../score.js';
 import { truncate } from '../util.js';

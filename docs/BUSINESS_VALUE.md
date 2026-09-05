@@ -32,6 +32,10 @@ dashboard out:
   single point in a client meeting (nothing is a black box);
 - **A prioritized fix list** — "fix these first," ordered by severity and
   weight, with the evidence right next to each finding;
+- **A GEO LLM analysis — on by default** once a key is configured — an actual
+  model reads the page the way ChatGPT/Perplexity would and reports whether it
+  would identify, trust and cite it: the closest direct measurement of "are we
+  visible to generative search?";
 - **Exportable reports** (JSON/Markdown) — the output of every analysis is a
   shareable artifact: baseline, meeting deck input, or a ticket list handed to
   the client's dev team;
@@ -41,13 +45,17 @@ dashboard out:
 **Actionable insights, not just scores.** Examples of the insight shape the
 tool produces (from the live demo reports in `docs/demo/`):
 
-- A portfolio site scoring **91 SEO / 61 AEO / 67 GEO**: great metadata, but
-  no FAQ-shaped content, no quotable statistics, and the entity name appears
-  once in the body — *concrete fixes, in priority order*.
-- A resort site with **LocalBusiness schema and plain-language copy** scoring
-  well on AEO (78) — proof that the tool rewards the right behavior, so its
-  recommendations carry credibility when it flags what's missing elsewhere.
-- A content-hub page with **rich schema but thin copy** capping GEO at 48 —
+- The client-facing demo target, sitesnstores.com.au, scores **SEO 73.1 /
+  AEO 73.9 / GEO 64.8**: indexable, with real metadata and 20 internal links —
+  but a keyword-stuffed 149-char title, two H1s, skipped heading levels and a
+  poor lab LCP (4.32 s) hold SEO back, and few quotable statistics limit GEO.
+  Concrete fixes, in priority order.
+- The hiring org's own site, theremotegroup.com, scores **SEO 88.9 / AEO 84.8 /
+  GEO 75.9** on clean metadata, a single H1, 2,262 words and alt text on all 29
+  images — proof the tool rewards the right behavior, so its recommendations
+  carry credibility when it flags what's missing elsewhere (plain-language
+  copy, homepage internal links, quotable stats and sourcing).
+- A content-hub page with **rich schema but thin copy** capping GEO at 48.1 —
   demonstrating the SEO≠GEO distinction clients need to internalize.
 
 ## How this drives value for the business running it
@@ -55,7 +63,9 @@ tool produces (from the live demo reports in `docs/demo/`):
 1. **Replaces guesswork with a repeatable, explainable baseline.** Every audit
    produces a number and a paper trail; clients see progress when scores move.
 2. **Costs ~nothing to operate.** No paid APIs in the core; one engineer's
-   laptop can run unlimited audits. The per-client marginal cost approaches
+   laptop can run unlimited audits. The GEO LLM pass runs on free tiers
+   (DeepSeek, Groq, local Ollama — any OpenAI-compatible endpoint). The
+   per-client marginal cost approaches
    zero, which makes it viable as a *free value-add audit* that opens
    consulting conversations — the classic "give the audit away, sell the
    remediation" motion.
@@ -74,8 +84,8 @@ tool produces (from the live demo reports in `docs/demo/`):
 
 - **Agencies** serving local businesses (resorts, clinics, restaurants,
   e-commerce) whose owners have started asking "why don't we show up when
-  people ask ChatGPT about {their town}?" — the resort demo target in this
-  repo is exactly that profile.
+  people ask ChatGPT about {their town}?" — the agency profile of the
+  client-facing demo target (sitesnstores.com.au) is exactly that buyer.
 - **Brands** whose organic click-through is eroding and who need to know
   whether they are at least *being cited* as their clicks decline.
 - **In-house marketing ops** needing a repeatable pre-publish checklist

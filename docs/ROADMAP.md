@@ -68,31 +68,47 @@ be billed as a service built on a free diagnostic. (Ships naturally as n8n
 workflows around the JSON report contract — scheduled runs, Telegram/Slack
 notifications on score regressions, Notion database sync of client baselines.)
 
-## 5. Field-data + entity-authority enrichment
+## 5. SEO/AEO/GEO checker as an MCP server (any AI agent can audit a URL)
 
-**Problem:** lab Core Web Vitals and on-page heuristics are honest but
-incomplete: real-world CWV, backlink profile, and knowledge-graph presence
-(Google Business Profile, Wikipedia, review sites) drive a large share of
-actual rankings/citations.
+**Problem:** the report lives in a UI and a CLI. The fastest-growing way
+businesses now ask questions is through AI agents — ChatGPT, Claude Desktop,
+Cursor/Codex, Hermes, and n8n AI workflows — and none of them can call this
+analyzer today. Every agent integration would otherwise mean re-implementing
+the audit logic badly, inside each tool.
 
-**Build:** optional connectors — CrUX API (free) for field CWV; a search/backlink
-free-tier (or owned-crawl fallback) for inbound-link counts; and a lightweight
-entity check (does a knowledge-graph entry exist, is NAP consistent across
-the top citation sources?). Roll into the report as clearly-labeled
-"authority layer" checks with their own weights.
+**Build:** wrap the existing pipeline in a **Model Context Protocol (MCP)
+server** exposing one tool — `analyze_url(url, { useLlm })` → returns the
+report's JSON contract (Visibility Index, SEO/AEO/GEO category scores, and the
+check list with evidence). MCP is the standard connector in 2026: any MCP
+client (Claude Desktop, Cursor, n8n's MCP node, VS Code agents) gains
+"audit any URL" instantly, served locally (stdio) or remotely (HTTP/SSE with
+optional auth). Because the core is already deterministic, keyless and
+JSON-serialized, this is a thin adapter over the existing pipeline — days, not
+weeks — and it inherits the same JSON report contract the n8n/Notion workflows
+already consume.
 
-**Value:** closes the gap between "page is well-built" and "page is
-trusted" — the two things rankings and citations actually mix. Kept optional
-so the core stays keyless and offline.
+**Value:** turns the analyzer from a tool into **infrastructure that agents
+call mid-workflow** — "check our new landing page before we ship" inside a
+Notion-centric agent pipeline, automated pre-publish gates in CI agents, and
+one reusable audit tool across every client engagement. It is also the
+cleanest monetization door: a hosted MCP endpoint can be offered as a paid
+tool in agent marketplaces. Fits the role's automation reality exactly.
 
 ---
 
 ### Sequencing logic
 
 **Now → 3 months:** #1 and #2 (pure pipeline extensions, immediate client
-proof and upsell). **3–6 months:** #3 (crawl breadth) then #4 (remediation
-revenue). **6–12 months:** #5 (authority data) — the only item needing
-external data partnerships, deliberately last so it never blocks the others.
+proof and upsell). **3–6 months:** #3 (crawl breadth), then #4 (remediation
+revenue). **#5 (MCP server) is the quick win** — a thin adapter over the
+stable JSON contract that can land alongside any phase and unlocks the
+agent/n8n workflows the role runs daily.
+
+**Further candidates beyond these five:** field-data (CrUX API) and
+entity-authority enrichment — optional connectors that add real-world CWV and
+knowledge-graph signals as a clearly-labeled "authority layer". Deliberately
+kept off the core list so the roadmap stays focused on pipeline extensions
+that need no external data partnerships.
 
 Every upgrade preserves the two non-negotiables: **deterministic, explainable
 scores** and **keyless out-of-the-box operation**.

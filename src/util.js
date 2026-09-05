@@ -1,14 +1,30 @@
 // Shared utilities: URL normalization, HTTP helpers, readability metrics.
 // No third-party deps — plain Node.
 
+import { isIP } from 'node:net';
+
 export const BOT_UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 ' +
   'SearchVisibilityAnalyzer/1.0 (+https://github.com/teryoooow/ai-search-visibility-analyzer)';
 
-/** Add scheme if missing, validate, return clean URL string. Throws on garbage. */
+/** Add scheme if missing, validate, return clean URL string. Throws with a friendly message on garbage. */
 export function normalizeUrl(input) {
   if (typeof input !== 'string' || !input.trim()) throw new Error('No URL provided.');
   let raw = input.trim();
+  if (raw.length > 2048) throw new Error('URL is too long (max 2048 characters).');
+
+  // Embedded credentials before the host — likely a pasted private URL.
+  const beforePath = raw.split(/[/?#]/)[0];
+  if (/@/.test(beforePath) && !/^https?:\/\//i.test(raw)) {
+    throw new Error('URLs with embedded credentials (user:pass@) are not supported.');
+  }
+
+  // Explicit non-http(s) scheme (javascript:, ftp:, file:, data: …) — reject up front.
+  // (Negative lookahead keeps host:port like "localhost:3100" from looking like a scheme.)
+  if (!/^https?:\/\//i.test(raw) && /^[a-z][a-z0-9+.-]*:(?!\d)/i.test(raw)) {
+    throw new Error('Only http/https URLs are supported.');
+  }
+
   if (!/^https?:\/\//i.test(raw)) raw = 'https://' + raw;
   let u;
   try {
@@ -17,6 +33,34 @@ export function normalizeUrl(input) {
     throw new Error(`"${input}" is not a valid URL.`);
   }
   if (!['http:', 'https:'].includes(u.protocol)) throw new Error('Only http/https URLs are supported.');
+  if (u.username || u.password) {
+    throw new Error('URLs with embedded credentials (user:pass@) are not supported.');
+  }
+
+  const host = u.hostname;
+  const isIpv6 = host.startsWith('[') && host.endsWith(']');
+  // Node's URL parser tolerates empty host labels (".com", "a..b", trailing dot) — reject them.
+  const hasEmptyLabel = host === '' || host.startsWith('.') || host.endsWith('.') || host.includes('..');
+  if (hasEmptyLabel) throw new Error(`"${input}" is not a valid URL.`);
+  // Browsers percent-encode spaces in the host ("my%20site.com") instead of rejecting — a real
+  // hostname can never contain '%' or whitespace.
+  if (/[\s%]/.test(host)) throw new Error(`"${input}" is not a valid URL.`);
+
+  if (host === 'localhost' || isIpv6 || isIP(host) === 4) return u.href;
+  if (!host.includes('.')) {
+    throw new Error(`"${input}" is missing a domain — use a public URL like example.com (or localhost for local testing).`);
+  }
+  // Hostname-shape check: DNS-safe labels only (letters/digits/hyphens, no leading/trailing hyphen).
+  const labels = host.split('.');
+  const dnsLabel = (l) => /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/i.test(l);
+  if (!labels.every(dnsLabel)) {
+    throw new Error(`"${input}" is not a valid hostname — domains use letters, digits and hyphens only.`);
+  }
+  // Last label must look like a real TLD (alpha or punycode) — catches "example.123", ".c" typos.
+  const tld = labels[labels.length - 1].toLowerCase();
+  if (!/^[a-z]{2,63}$/.test(tld) && !tld.startsWith('xn--')) {
+    throw new Error(`"${input}" doesn't look like a real domain (TLD "${labels[labels.length - 1]}").`);
+  }
   return u.href;
 }
 

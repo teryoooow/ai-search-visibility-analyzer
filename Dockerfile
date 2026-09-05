@@ -28,7 +28,8 @@ COPY . .
 
 EXPOSE 3100
 
-# Optional GEO LLM second opinion (any OpenAI-compatible endpoint):
+# GEO LLM analysis (main GEO function, runs on every analysis once keyed;
+# any OpenAI-compatible endpoint):
 #   docker run -p 3100:3100 -e GEO_LLM_API_KEY=sk-... -e GEO_LLM_BASE_URL=https://api.openai.com/v1 visibility-analyzer
 
 CMD ["node", "server.js"]

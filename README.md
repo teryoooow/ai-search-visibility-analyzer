@@ -7,9 +7,9 @@
 
 A working technical-challenge submission: a real Chrome render + Lighthouse
 Core Web Vitals + 38 explainable signal checks, a polished web UI **and** a CLI,
-a deterministic scoring core (no black boxes), and an optional LLM
-"second opinion" that simulates how a generative engine would actually read and
-cite the page.
+a deterministic scoring core (no black boxes), and a **GEO LLM analysis — the
+main GEO function** — that simulates how a generative engine would actually read
+and cite the page. It runs on **every** analysis (no toggle, no opt-out).
 
 ![UI report](docs/demo/ui-report.png)
 
@@ -26,8 +26,8 @@ docker run -p 3100:3100 visibility-analyzer
 ```
 
 No Node.js and no Chrome install needed on the host — the image bundles
-headless Chromium. (Optional LLM layer:
-`docker run -p 3100:3100 -e GEO_LLM_API_KEY=sk-... visibility-analyzer`.)
+headless Chromium. For the GEO LLM analysis (runs on every analysis once keyed):
+`docker run -p 3100:3100 -e GEO_LLM_API_KEY=sk-... visibility-analyzer`.
 
 ### Option B — Local (Node.js ≥ 18 + Chrome/Chromium)
 
@@ -60,19 +60,28 @@ overall **Visibility Index**, per-category scores (SEO/AEO/GEO), a screenshot of
 the rendered page, an executive summary, a prioritized fix list, and a
 signal-by-signal breakdown with evidence — exportable as JSON or Markdown.
 
-### Optional: GEO "LLM second opinion"
+### GEO LLM analysis — the main GEO function, always on
 
-The core analysis is fully deterministic and needs **no API keys**. To enrich
-the GEO section with an actual LLM reading of the page, point the tool at any
-OpenAI-compatible endpoint (OpenAI, DeepSeek, Groq, OpenRouter, or a local
-Ollama) via environment variables — see [`.env.example`](.env.example):
+When a key is configured, **every analysis runs the GEO LLM pass automatically**:
+there is no UI toggle, CLI flag, or API option to turn it off. The deterministic
+checks need **no API keys** and always run; the GEO LLM analysis adds the actual
+generative-engine read — an LLM reporting whether/how ChatGPT or Perplexity
+would identify, trust, and cite the page. Point it at any OpenAI-compatible
+endpoint (OpenAI, DeepSeek, Groq, OpenRouter, or a local Ollama) via environment
+variables — see [`.env.example`](.env.example):
 
 ```bash
 export GEO_LLM_API_KEY=sk-...
 export GEO_LLM_BASE_URL=https://api.openai.com/v1   # provider-specific
-node cli.js https://your-site.com --llm
-# or tick "GEO LLM second opinion" in the UI
+# DeepSeek example (model is auto-picked for the provider):
+export GEO_LLM_BASE_URL=https://api.deepseek.com/v1
+# optional: export GEO_LLM_MODEL=deepseek-v4-flash
+
+node cli.js https://your-site.com          # GEO LLM analysis runs automatically
 ```
+
+Without a key, the analysis still completes on the deterministic core, and the
+report clearly notes that the GEO LLM read was skipped.
 
 ---
 
@@ -108,7 +117,7 @@ check's detail text so a consultant can defend every point to a client.
                                     │
    ┌───────────────┬────────────────┼────────────────┬──────────────────┐
    │               │                │                │                  │
-capture.js     lighthouse.js   robots.js        extract.js        geo-llm.js (opt.)
+capture.js     lighthouse.js   robots.js        extract.js        geo-llm.js (always)
 real Chrome     CWV + perf     robots.txt +     cheerio parser    LLM simulates a
 render via CDP   scores         sitemap probe    → page model     generative read
    │               │                │                │                  │
@@ -206,7 +215,9 @@ This challenge required four artifacts — all in this repo:
   this machine). They reliably catch gross problems but are not a substitute
   for CrUX field data — the report says so in the footer.
 - Checks are **heuristic by design** so they stay explainable; an LLM never
-  decides a score. The optional LLM layer only adds a second opinion.
+  decides a score. The GEO LLM analysis is a separate read layered on top —
+  it reports how a generative engine would treat the page but never alters the
+  deterministic score.
 - Single-page analysis today; whole-site crawls are roadmap item #3.
 - Respects no login-gated content (it analyzes what a public crawler sees).
 

@@ -39,11 +39,81 @@ function gradeText(score) {
 const form = $('#analyzeForm');
 const urlInput = $('#urlInput');
 const goBtn = $('#goBtn');
+const urlError = $('#urlError');
+const urlRow = $('.urlrow');
+
+/* Client-side mirror of src/util.js normalizeUrl — keep messages in sync. */
+function validateInput(value) {
+  const raw = value.trim();
+  if (!raw) return 'Enter a URL to analyze.';
+  if (raw.length > 2048) return 'URL is too long (max 2048 characters).';
+  if (/@/.test(raw.split(/[/?#]/)[0]) && !/^https?:\/\//i.test(raw)) return 'URLs with embedded credentials (user:pass@) are not supported.';
+  if (!/^https?:\/\//i.test(raw) && /^[a-z][a-z0-9+.-]*:(?!\d)/i.test(raw)) return 'Only http/https URLs are supported.';
+  const candidate = /^https?:\/\//i.test(raw) ? raw : 'https://' + raw;
+  let u;
+  try { u = new URL(candidate); } catch { return `"${raw}" is not a valid URL.`; }
+  if (!['http:', 'https:'].includes(u.protocol)) return 'Only http/https URLs are supported.';
+  if (u.username || u.password) return 'URLs with embedded credentials (user:pass@) are not supported.';
+  const host = u.hostname;
+  if (host === '' || host.startsWith('.') || host.endsWith('.') || host.includes('..')) return `"${raw}" is not a valid URL.`;
+  if (/[\s%]/.test(host)) return `"${raw}" is not a valid URL.`;
+  const isIpv6 = host.startsWith('[') && host.endsWith(']');
+  const isIpv4 = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/.test(host);
+  if (host === 'localhost' || isIpv6 || isIpv4) return null;
+  if (!host.includes('.')) return `"${raw}" is missing a domain — use a public URL like example.com (or localhost for local testing).`;
+  const labels = host.split('.');
+  const dnsLabel = (l) => /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/i.test(l);
+  if (!labels.every(dnsLabel)) return `"${raw}" is not a valid hostname — domains use letters, digits and hyphens only.`;
+  const tld = labels[labels.length - 1].toLowerCase();
+  if (!/^[a-z]{2,63}$/.test(tld) && !tld.startsWith('xn--')) return `"${raw}" doesn't look like a real domain (TLD "${labels[labels.length - 1]}").`;
+  return null;
+}
+
+function showUrlError(msg) {
+  urlError.textContent = msg;
+  urlError.classList.remove('hidden');
+  urlRow.classList.add('invalid');
+  urlInput.setAttribute('aria-invalid', 'true');
+  urlInput.focus();
+}
+
+function clearUrlError() {
+  urlError.classList.add('hidden');
+  urlError.textContent = '';
+  urlRow.classList.remove('invalid');
+  urlInput.removeAttribute('aria-invalid');
+}
+
+urlInput.addEventListener('input', clearUrlError);
+
+/* Pasting a full URL into a field that already shows an https:// prefix looks
+   like a duplicate scheme — strip http(s):// (and stray spaces) on paste. */
+function cleanPastedUrl(raw) {
+  return String(raw || '').trim().replace(/^https?:\/\//i, '');
+}
+
+urlInput.addEventListener('paste', (e) => {
+  const pasted = e.clipboardData?.getData('text');
+  if (!pasted) return;
+  const cleaned = cleanPastedUrl(pasted);
+  e.preventDefault();
+  const start = urlInput.selectionStart ?? urlInput.value.length;
+  const end = urlInput.selectionEnd ?? urlInput.value.length;
+  const next = urlInput.value.slice(0, start) + cleaned + urlInput.value.slice(end);
+  if (next !== urlInput.value) {
+    urlInput.value = next;
+    clearUrlError();
+  }
+  const caret = start + cleaned.length;
+  urlInput.setSelectionRange(caret, caret);
+});
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+  const err = validateInput(urlInput.value);
+  if (err) return showUrlError(err);
+  clearUrlError();
   const raw = urlInput.value.trim();
-  if (!raw) return;
   const url = /^https?:\/\//i.test(raw) ? raw : 'https://' + raw;
   startAnalysis(url);
 });
@@ -60,7 +130,7 @@ async function startAnalysis(url) {
     const res = await fetch('/api/analyze', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ url, useLlm: $('#llmToggle').checked }),
+      body: JSON.stringify({ url }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Request failed');
@@ -145,7 +215,7 @@ function renderReport(r) {
     ['Readability', r.page.flesch ?? '—'],
     ['Schema', (r.page.schemaTypes || []).slice(0, 4).join(', ') || 'none'],
     ['Duration', `${Math.round(m.durationMs / 1000)}s`],
-    ['Engine', `Lighthouse ${m.lighthouseVersion || '—'}${m.llmUsed ? ' · LLM' : ''}`],
+    ['Engine', `Lighthouse ${m.lighthouseVersion || '—'}${m.llmUsed ? ' · LLM' : ''}${!m.llmUsed && (r.llm?.skipped || r.llm?.error) ? ' · GEO LLM skipped (no API key)' : ''}`],
   ];
   $('#metaStrip').innerHTML = meta
     .map(([k, v]) => `<span class="kv">${k}: <b>${esc(String(v))}</b></span>`)
@@ -169,7 +239,7 @@ function renderReport(r) {
     ? actions.map((a) => `<li><b class="cat">${a.category}</b><span>${esc(a.label)} — <span class="detail">${esc(a.detail)}</span></span></li>`).join('')
     : '<li style="color:var(--pass)">No warnings or failures — nothing urgent to fix 🎉</li>';
 
-  // LLM second opinion
+  // GEO LLM analysis (main GEO read; present unless the server has no key)
   const llm = r.llm;
   const lp = $('#llmPanel');
   if (llm?.perspective) {
@@ -194,8 +264,12 @@ function renderReport(r) {
       </div>`;
   } else if (llm?.skipped) {
     lp.classList.remove('hidden');
-    $('#llmChip').textContent = 'off';
+    $('#llmChip').textContent = 'skipped';
     $('#llmBody').innerHTML = `<p class="muted" style="font-size:13px">${esc(llm.skipped)}</p>`;
+  } else if (llm?.error) {
+    lp.classList.remove('hidden');
+    $('#llmChip').textContent = 'error';
+    $('#llmBody').innerHTML = `<p style="font-size:13px;color:var(--fail)">⚠️ LLM pass failed: ${esc(llm.error)}</p>`;
   } else {
     lp.classList.add('hidden');
   }
@@ -230,17 +304,36 @@ function showTab(key) {
   $('#checks').innerHTML = cat.checks
     .filter((c) => c.status !== 'skip')
     .map((c) => `
-      <div class="check" data-status="${c.status}">
-        <span class="ic">${ICON[c.status]}</span>
-        <div class="main">
-          <div class="lbl">${esc(c.label)}</div>
+      <div class="faq" data-status="${c.status}">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span class="ic">${ICON[c.status]}</span>
+          <span class="lbl">${esc(c.label)}</span>
+          <span class="wgt">w${c.weight}</span>
+          <span class="faq-caret" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a">
           <div class="det">${esc(c.detail)}</div>
-          ${c.evidence && typeof c.evidence === 'string' ? `<div class="det" style="font-family:var(--mono);font-size:11.5px;opacity:.75">${esc(c.evidence)}</div>` : ''}
+          ${c.evidence && typeof c.evidence === 'string' ? `<div class="det ev">${esc(c.evidence)}</div>` : ''}
         </div>
-        <span class="wgt">w${c.weight}</span>
       </div>`)
     .join('');
 }
+
+/* FAQ-style accordion: shows only the check titles until one is clicked. */
+function setFaq(el, open) {
+  el.classList.toggle('open', open);
+  const q = el.querySelector('.faq-q');
+  if (q) q.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+$('#checks').addEventListener('click', (e) => {
+  const q = e.target.closest('.faq-q');
+  if (!q) return;
+  const item = q.closest('.faq');
+  const open = !item.classList.contains('open');
+  $('#checks').querySelectorAll('.faq.open').forEach((f) => { if (f !== item) setFaq(f, false); });
+  setFaq(item, open);
+});
 
 /* ---------------- exports ---------------- */
 let lastJobId = null;

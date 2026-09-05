@@ -3,7 +3,7 @@
 //   OpenAI, DeepSeek, Groq, OpenRouter, Ollama, LM Studio, Azure (via baseURL).
 
 const DEFAULT_MODEL_HINT = (baseUrl) => {
-  if (/deepseek/i.test(baseUrl)) return 'deepseek-chat';
+  if (/deepseek/i.test(baseUrl)) return 'deepseek-v4-flash';
   if (/groq/i.test(baseUrl)) return 'llama-3.3-70b-versatile';
   if (/openrouter/i.test(baseUrl)) return 'openai/gpt-4o-mini';
   if (/ollama/i.test(baseUrl)) return 'qwen2.5:7b';

@@ -19,7 +19,7 @@ candidate's machine, and has zero recurring dependency:
 | Web Vitals | **Lighthouse 13 (programmatic, mobile-emulated)** | The reference implementation of Core Web Vitals and SEO audits. Chose lab mode over the PageSpeed Insights API so the tool works fully offline/self-contained and isn't rate-limited by Google. |
 | HTML parsing | **cheerio** | jQuery-style traversal over the captured DOM; battle-tested; no native build. |
 | Server/UI | **Express + vanilla JS SPA** | No build step, no CDN, no framework churn — the UI must run from a laptop with no internet dependency beyond the analyzed page itself. |
-| LLM layer | **Any OpenAI-compatible endpoint via plain `fetch`** | One integration serves OpenAI, DeepSeek, Groq, OpenRouter, *and* local Ollama — zero SDK lock-in, and the layer is **optional** (see §4). Free-tier-friendly by design. |
+| LLM layer | **Any OpenAI-compatible endpoint via plain `fetch`** | One integration serves OpenAI, DeepSeek, Groq, OpenRouter, *and* local Ollama — zero SDK lock-in, and the GEO LLM analysis is a first-class part of every report (see §4). Free-tier-friendly by design. |
 | Tests | **vitest** | Fast, zero-config, native ESM. |
 
 **Not used, deliberately:** PageSpeed Insights API (rate limits + key), paid
@@ -55,15 +55,19 @@ Key decisions:
   run).
 - **Jobs, not blocking requests.** The web server runs each analysis as a
   background job with phase progress (`queued → render → vitals → crawl →
-  analyze → done`); the UI polls. A 60–90 s analysis never holds a socket open.
+  analyze → GEO LLM → done`); the UI polls. A 60–90 s analysis never holds a
+  socket open.
 - **Errors are data, not crashes.** Non-HTML targets, timeouts, dead hosts,
   and even HTTP 404-with-content servers (seen live: some CDNs serve a 404
   status *with* the real article) all resolve into either a clean error message
   or a scored check — never a stack trace in the UI.
-- **Deterministic core + optional AI.** Scores never depend on an external
-  model (see §4). This is the single most important architecture decision: the
-  deliverable works forever, offline, with no key — and the LLM enriches rather
-  than decides.
+- **Deterministic core + GEO LLM analysis on by default.** Scores never depend on an
+  external model (see §4). This is the single most important architecture
+  decision: the scoring core is deterministic and reproducible, while the GEO
+  LLM analysis — the main GEO function — runs by default on every analysis
+  (per-run opt-out available) to report how a
+  generative engine would actually read and cite the page. The LLM informs the
+  GEO verdict but never decides a score.
 
 ## 3. Data extraction techniques
 
@@ -102,17 +106,21 @@ explainable signals**. Techniques used, roughly in pipeline order:
 
 ## 4. Prompt engineering strategies
 
-The deterministic checks answer *"are the signals there?"* The optional LLM
-layer answers the question a score can't: **"if a generative engine read this
-page right now, would it cite it — and why not?"**
+The deterministic checks answer *"are the signals there?"* The GEO LLM analysis
+answers the question a score can't: **"if a generative engine read this page
+right now, would it cite it — and why not?"** It is the main GEO function and
+is **on by default**: the UI checkbox is pre-checked, the CLI and API default
+to it, and only an explicit per-run opt-out (`--no-llm`, `useLlm: false`)
+disables it.
 
 **Design constraint (the most important prompt decision):** the LLM never
-produces a score that feeds the index. It is a labeled *second opinion*,
-visually separate in the UI ("LLM second opinion"), so:
+produces a score that feeds the index. Its verdict is surfaced as a labeled
+*GEO LLM analysis* panel, so:
 
-- the app is fully functional with **zero API keys** (a hard requirement of
-  "self-sourced infrastructure"),
-- graders can run it forever without spending money,
+- the deterministic scoring core stays reproducible and explainable,
+- the tool works with **zero API keys** (a hard requirement of "self-sourced
+  infrastructure") — without a key the run completes and the report notes the
+  LLM read was skipped,
 - an LLM failure (rate limit, timeout, API change) can never take the report
   down or corrupt the deterministic results.
 
@@ -147,16 +155,65 @@ This distinction is the domain core, so it is encoded structurally:
 Overlaps exist (schema helps AEO *and* GEO grounding) and are handled honestly:
 AEO checks schema for *answer extractability* (FAQPage/HowTo quality), GEO
 checks it for *entity grounding* (Organization/Person with `sameAs`); the
-rationale is stated in each check's label. A page can be SEO-excellent and
-GEO-poor — the demo portfolio page scores 91/61/67 for exactly that reason,
-which is the point of the tool.
+rationale is stated in each check's label. A page can be SEO-strong and
+GEO-weak — theremotegroup.com scores SEO 88.9 vs GEO 75.9 in the live demo,
+and the client site sitesnstores.com.au lands at 73.1/73.9/64.8 (SEO/AEO/GEO) —
+for exactly that reason, which is the point of the tool.
 
-## 6. Verification
+## 6. Measurement methodology: lab data, field data, and why nothing is a black box
 
-- `npm test` — 21 unit tests: extraction behavior on good/poor fixture HTML
-  (metadata, schema parsing, brand signals, statistics, boilerplate) and
+**Two industry-standard families of performance data — and where this tool sits.**
+
+- **Lab data** — automated runs under controlled conditions. Lighthouse,
+  Google's open-source auditor, is the de-facto standard: it powers
+  PageSpeed Insights' lab scores, Chrome DevTools, and most CI performance
+  gates. This tool ships lab data.
+- **Field data — CrUX** — the Chrome User Experience Report: Core Web Vitals
+  collected from *real Chrome visitors* to a site, aggregated by Google.
+  Only Google can produce it at scale (PageSpeed Insights shows it beside lab
+  scores); a crawler auditing a URL for the first time cannot.
+
+**Why a first audit is lab-based.** Field data requires a site's accumulated
+real-user traffic. For an immediate, comparative read of *any* URL, lab is the
+right tool: fast, free, repeatable, and identical across sites — an
+apples-to-apples baseline. Lab answers *"where are the problems and what do we
+fix first?"*; field answers *"what did real users actually experience?"*
+Google's own guidance is to use both — lab to diagnose, field to confirm. That
+two-step workflow is documented in the README, the UI footer, and the roadmap;
+this tool is the lab half, and says so explicitly — every Core Web Vitals check
+is labeled *lab-based, mobile-emulated, simulated throttling*.
+
+**How the lab numbers are produced — fully disclosed.** The vitals come from a
+pinned, open-source Lighthouse (13.4.1, visible in `package.json`), run
+programmatically in mobile-emulated mode with simulated throttling — the same
+engine and the same numbers any evaluator gets by running Lighthouse
+themselves on the same URL. Nothing in the pipeline is proprietary:
+
+| What the report shows | Produced by | Verifiable how |
+| --- | --- | --- |
+| Core Web Vitals & performance | Lighthouse 13.4.1 (open source, pinned) | Re-run Lighthouse on the URL — same scores |
+| SEO/AEO/GEO signal checks | The page's served HTML, every verdict carrying its quoted evidence | Open `docs/demo/` reports — evidence beside each check |
+| GEO LLM analysis | A clearly labeled model pass that never affects a score | Inspect the prompt + JSON contract in `src/geo-llm.js` |
+
+**Why this is hard to blackbox.** Because the method is standard and open, no
+part of the result is a black box — ours, or anyone else's. A client (or
+another candidate) can re-run the identical analysis on any URL and reproduce
+the report. Candidates who built on Lighthouse, CrUX, or PageSpeed Insights
+would produce comparable, cross-checkable numbers — which is the point: the
+differentiator in this submission is not a secret dataset or hidden model, but
+(1) a clean modular architecture, (2) an explainable 38-check scoring core
+with evidence on every verdict, and (3) honest labeling of what each number
+means — and what it doesn't. That reproducibility is what makes the
+methodology defensible in a client meeting.
+
+## 7. Verification
+
+- `npm test` — 44 unit tests: extraction behavior on good/poor fixture HTML
+  (metadata, schema parsing, brand signals, statistics, boilerplate),
   analyzer behavior (optimized page scores high, anonymous thin page scores
-  low, noindex fails, skip/weight math).
+  low, noindex fails, skip/weight math), URL-validation rules (scheme,
+  credentials, hostname shape, TLD plausibility), and DNS-preflight behavior
+  (NXDOMAIN, timeouts, localhost/IP skips).
 - Live runs against three real pages, reports committed under `docs/demo/`
   and re-runnable as regression samples.
 - The UI was exercised end-to-end in a real browser (job progress → report

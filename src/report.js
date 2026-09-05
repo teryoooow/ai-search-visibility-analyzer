@@ -43,7 +43,7 @@ export function reportToMarkdown(report) {
 
   if (report.llm?.perspective) {
     const p = report.llm.perspective;
-    L.push(`## GEO — LLM Second Opinion`);
+    L.push(`## GEO LLM Analysis`);
     L.push('');
     L.push(`> Simulated generative-engine read${report.llm.provider ? ` (model: ${report.llm.provider})` : ''}`);
     L.push('');
@@ -54,7 +54,7 @@ export function reportToMarkdown(report) {
     if (p.geoGaps?.length) L.push(`- **GEO gaps it flagged:** ${p.geoGaps.join('; ')}`);
     L.push('');
   } else if (report.llm?.skipped) {
-    L.push(`## GEO — LLM Second Opinion`);
+    L.push(`## GEO LLM Analysis`);
     L.push('');
     L.push(`> ${report.llm.skipped}`);
     L.push('');

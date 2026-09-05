@@ -1,6 +1,7 @@
 // Web UI + API server. Analysis runs as a background job so the UI can show
 // live progress (rendering + Lighthouse takes 30-90s).
 
+import 'dotenv/config';
 import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -45,7 +46,6 @@ app.post('/api/analyze', (req, res) => {
   }
   const job = createJob();
   job.targetUrl = url;
-  job.useLlm = !!req.body?.useLlm;
 
   queue = queue.then(() => runJob(job)).catch(() => {});
   res.json({ jobId: job.id });
@@ -55,7 +55,6 @@ async function runJob(job) {
   job.status = 'running';
   try {
     job.report = await analyzeUrl(job.targetUrl, {
-      useLlm: job.useLlm,
       onProgress: ({ phase, message, pct }) => {
         job.phase = phase;
         job.message = message;

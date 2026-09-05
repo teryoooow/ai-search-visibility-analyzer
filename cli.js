@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 // CLI: analyze a URL without a browser UI.
-//   node cli.js https://example.com [--json out.json] [--md out.md] [--llm] [--shot out.jpg]
+//   node cli.js https://example.com [--json out.json] [--md out.md] [--shot out.jpg]
+// GEO LLM analysis is the main GEO function and always runs (skipped only if
+// no LLM API key is configured, in which case the report says so).
 
+import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { analyzeUrlOnce } from './src/analyze.js';
@@ -9,13 +12,12 @@ import { reportToMarkdown, topActions } from './src/report.js';
 import { normalizeUrl } from './src/util.js';
 
 const args = process.argv.slice(2);
-const flags = { json: null, md: null, llm: false, shot: null };
+const flags = { json: null, md: null, shot: null };
 const positional = [];
 for (let i = 0; i < args.length; i++) {
   const a = args[i];
   if (a === '--json') flags.json = args[++i];
   else if (a === '--md') flags.md = args[++i];
-  else if (a === '--llm') flags.llm = true;
   else if (a === '--shot') flags.shot = args[++i];
   else if (a === '--help' || a === '-h') { help(); process.exit(0); }
   else positional.push(a);
@@ -35,19 +37,9 @@ console.log(`\n  🔎 AI Search Visibility Analyzer\n  ${'─'.repeat(46)}`);
 console.log(`  Target : ${url}`);
 
 const started = Date.now();
-const phases = {
-  browser: 'launching headless Chrome',
-  render: 'rendering page (JS included)',
-  vitals: 'running Lighthouse (Core Web Vitals)',
-  crawl: 'probing robots.txt & sitemap',
-  analyze: 'scoring SEO/AEO/GEO',
-  llm: 'LLM second opinion',
-  done: 'done',
-};
 
 try {
   const report = await analyzeUrlOnce(url, {
-    useLlm: flags.llm,
     onProgress: ({ phase, message }) => {
       if (phase !== 'done' && phase !== 'browser') console.log(`  · ${message}`);
       else if (phase === 'browser') console.log(`  · ${message}`);
@@ -93,11 +85,16 @@ Usage: node cli.js <url> [options]
 
 Analyzes a URL across SEO (clicks), AEO (direct answers), and GEO (LLM citations).
 
+GEO LLM analysis is the main GEO function and runs on every analysis: an actual
+LLM reads the page and reports how ChatGPT/Perplexity would identify, trust and
+cite it. Configure GEO_LLM_API_KEY / OPENAI_API_KEY to enable it (any
+OpenAI-compatible endpoint); without a key the run still completes and the
+report notes that the LLM read was skipped.
+
 Options:
   --json <file>   Write the full JSON report to a file
   --md <file>     Write a Markdown report to a file
   --shot <file>   Save a screenshot of the page (JPEG)
-  --llm           Enable the LLM second opinion (needs GEO_LLM_API_KEY or OPENAI_API_KEY)
 
 Examples:
   node cli.js https://example.com

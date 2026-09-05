@@ -1,6 +1,8 @@
-// GEO "second opinion" — an actual LLM reads the page like ChatGPT/Perplexity
-// would and reports whether/how it would cite it. Strictly an enrichment layer:
-// the GEO score above never depends on this call (keeps the core deterministic).
+// GEO LLM analysis — the main GEO function. An actual LLM reads the page the
+// way ChatGPT/Perplexity would and reports whether/how it would cite it. It
+// runs as part of every analysis and feeds the report's GEO LLM section. It is
+// skipped only when no API key is configured (noted explicitly in the report);
+// the deterministic GEO score above never depends on this call.
 
 import { chatJSON } from './llm.js';
 

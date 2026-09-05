@@ -1,4 +1,4 @@
-// Capture just the LLM second-opinion panel element after a full UI analysis.
+// Capture just the GEO LLM analysis panel element after a full UI analysis.
 // Usage: LLM panel must render server-side (server started with GEO_LLM_* env).
 //   node scripts/llm-panel-shot.js <url> <out.png> [UI_URL]
 import fs from 'node:fs';
@@ -23,11 +23,10 @@ try {
   await cdp.send('Page.navigate', { url: uiUrl });
   await sleep(2500);
 
-  // submit with LLM toggle on
+  // submit (GEO LLM analysis always runs server-side)
   await cdp.send('Runtime.evaluate', {
     expression: `
       document.getElementById('urlInput').value = ${JSON.stringify(targetUrl)};
-      document.getElementById('llmToggle').checked = true;
       document.getElementById('analyzeForm').requestSubmit();
     `,
   });

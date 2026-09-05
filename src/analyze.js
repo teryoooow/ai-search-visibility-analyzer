@@ -1,5 +1,7 @@
 // Analysis pipeline: URL → render → extract → analyze (SEO/AEO/GEO) → report.
-// Deterministic core; optional LLM second opinion when a key is configured.
+// GEO LLM analysis is the main GEO function and runs on EVERY analysis: it
+// reads the page the way a generative engine would. It is skipped only when no
+// LLM key is configured, in which case the report notes that explicitly.
 
 import { captureRendered, ensureChrome, closeChrome } from './capture.js';
 import { extractPageModel } from './extract.js';
@@ -11,12 +13,17 @@ import { runLighthouse } from './lighthouse.js';
 import { geoSecondOpinion, llmConfigured } from './geo-llm.js';
 import { overallScore } from './score.js';
 import { normalizeUrl, hostnameOf } from './util.js';
+import { checkDomainResolves } from './preflight.js';
 
-export async function analyzeUrl(inputUrl, { useLlm = false, onProgress = () => {} } = {}) {
+export async function analyzeUrl(inputUrl, { onProgress = () => {} } = {}) {
   const url = normalizeUrl(inputUrl);
   const startedAt = Date.now();
   const origin = new URL(url).origin;
   let chrome = null;
+
+  // Fail fast on nonexistent domains — no Chrome launch for NXDOMAIN typos.
+  onProgress({ phase: 'preflight', message: 'Checking that the domain resolves…', pct: 3 });
+  await checkDomainResolves(new URL(url).hostname);
 
   onProgress({ phase: 'browser', message: 'Launching headless Chrome…', pct: 5 });
   try {
@@ -49,17 +56,18 @@ export async function analyzeUrl(inputUrl, { useLlm = false, onProgress = () => 
       geo: analyzeGEO(page),
     };
 
-    // 5) Optional LLM second opinion for GEO
+    // 5) GEO LLM analysis — the generative-engine read. Main GEO function,
+    //    part of every report; noted as skipped only when no key is configured.
     let llm = null;
-    if (useLlm && llmConfigured()) {
-      onProgress({ phase: 'llm', message: 'LLM second opinion: simulating a generative-engine read…', pct: 90 });
+    if (llmConfigured()) {
+      onProgress({ phase: 'llm', message: 'GEO LLM analysis: simulating a generative-engine read…', pct: 90 });
       try {
         llm = { perspective: await geoSecondOpinion(page), provider: process.env.GEO_LLM_MODEL || 'configured' };
       } catch (e) {
         llm = { error: e.message };
       }
-    } else if (useLlm && !llmConfigured()) {
-      llm = { skipped: 'No GEO_LLM_API_KEY / OPENAI_API_KEY configured — run with an OpenAI-compatible key to enable.' };
+    } else {
+      llm = { skipped: 'GEO LLM analysis is part of every run, but no LLM key is configured. Set GEO_LLM_API_KEY (or OPENAI_API_KEY) on the server to include the generative-engine read.' };
     }
 
     const overall = overallScore(categories);

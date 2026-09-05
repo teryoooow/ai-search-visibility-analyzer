@@ -35,16 +35,12 @@
       <form id="analyzeForm" autocomplete="off">
         <div class="urlrow">
           <span class="scheme">https://</span>
-          <input id="urlInput" type="text" placeholder="your-site.com or full URL" spellcheck="false" />
+          <input id="urlInput" type="text" placeholder="your-site.com or full URL" spellcheck="false" aria-describedby="urlError" />
           <button class="btn primary" id="goBtn" type="submit">Analyze</button>
         </div>
-        <label class="llm-toggle" title="Runs an actual LLM over the page text to simulate how ChatGPT/Perplexity would read &amp; cite it (needs GEO_LLM_API_KEY on the server)">
-          <input type="checkbox" id="llmToggle" />
-          <span class="switch"></span>
-          <span>GEO LLM second opinion <em>optional</em></span>
-        </label>
+        <p class="field-error hidden" id="urlError" role="alert"></p>
       </form>
-      <p class="hint">Paste any public URL to analyze — real Chrome render + Lighthouse runs under the hood.</p>
+      <p class="hint">Paste any public URL to analyze — real Chrome render + Lighthouse run under the hood, and a <b>GEO LLM analysis</b> reads the page the way ChatGPT &amp; Perplexity would (requires <code>GEO_LLM_API_KEY</code> on the server).</p>
 
       <div class="legend" id="legend">
         <div class="leg"><i class="dot" style="--c:#7c5cff"></i><div><b>SEO</b><span>Will Google find, rank &amp; get clicks?</span></div></div>
@@ -95,21 +91,23 @@
 
       <!-- body -->
       <div class="layout2">
-        <div class="panel shot-panel" id="shotPanel">
-          <div class="panel-title">Rendered page <span class="muted">(headless Chrome)</span></div>
-          <div class="shot-frame"><img id="shotImg" alt="Page screenshot" /></div>
+        <div class="leftcol">
+          <div class="panel shot-panel" id="shotPanel">
+            <div class="panel-title">Rendered page <span class="muted">(headless Chrome)</span></div>
+            <div class="shot-frame"><img id="shotImg" alt="Page screenshot" /></div>
+          </div>
+          <div class="panel actions-panel">
+            <div class="panel-title">Fix these first <span class="muted" id="actionCount"></span></div>
+            <ol id="actionsList"></ol>
+          </div>
         </div>
         <div class="rightcol">
           <div class="panel summary-panel">
             <div class="panel-title">Executive summary</div>
             <p id="summaryText"></p>
           </div>
-          <div class="panel actions-panel">
-            <div class="panel-title">Fix these first <span class="muted" id="actionCount"></span></div>
-            <ol id="actionsList"></ol>
-          </div>
-          <div class="panel llm-panel hidden" id="llmPanel">
-            <div class="panel-title">LLM second opinion <span class="chip" id="llmChip"></span></div>
+          <div class="panel llm-panel" id="llmPanel">
+            <div class="panel-title">GEO LLM analysis <span class="chip" id="llmChip"></span></div>
             <div id="llmBody"></div>
           </div>
         </div>

@@ -30,11 +30,10 @@ try {
   await cdp.send('Page.navigate', { url: process.env.UI_URL || 'http://localhost:3100' });
   await sleep(2500);
 
-  // 2. fill URL + (optionally) tick the LLM toggle + click Analyze
+  // 2. fill URL + click Analyze (GEO LLM analysis always runs server-side)
   await cdp.send('Runtime.evaluate', {
     expression: `
       document.getElementById('urlInput').value = ${JSON.stringify(targetUrl)};
-      ${process.env.UI_LLM ? `document.getElementById('llmToggle').checked = true;` : ''}
       document.getElementById('analyzeForm').requestSubmit();
     `,
   });
