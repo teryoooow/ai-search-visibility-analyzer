@@ -21,6 +21,8 @@ candidate's machine, and has zero recurring dependency:
 | Server/UI | **Express + vanilla JS SPA** | No build step, no CDN, no framework churn — the UI must run from a laptop with no internet dependency beyond the analyzed page itself. |
 | LLM layer | **Any OpenAI-compatible endpoint via plain `fetch`** | One integration serves OpenAI, DeepSeek, Groq, OpenRouter, *and* local Ollama — zero SDK lock-in, and the GEO LLM analysis is a first-class part of every report (see §4). Free-tier-friendly by design. |
 | Tests | **vitest** | Fast, zero-config, native ESM. |
+| AI dev agents | **Hermes Agent (Nous Research) · OpenCode CLI** | This submission was itself an AI-assisted build — the JD's own workflow (agentic coding tools as core practice). Hermes Agent orchestrated implementation, verification, and documentation; OpenCode CLI handled agentic coding passes. |
+| Dev & demo model | **DeepSeek v4 flash (DeepSeek API)** | The model behind the build agents and the GEO LLM demo runs. The product's LLM layer stays provider-agnostic: any OpenAI-compatible endpoint (OpenAI, DeepSeek, Groq, OpenRouter, local Ollama) with the model auto-picked per provider. |
 
 **Not used, deliberately:** PageSpeed Insights API (rate limits + key), paid
 SERP/backlink APIs (cost, and backlinks are roadmap #2 anyway), a vector
@@ -45,7 +47,7 @@ User (UI or CLI) → analyze.js pipeline:
 Key decisions:
 
 - **Modular + pure core.** Every analyzer is a pure function
-  `(pageModel, extras) → { checks, score }`. That made the 21 unit tests
+  `(pageModel, extras) → { checks, score }`. That made the 44 unit tests
   trivial (fixture HTML in, statuses/scores out) and keeps each concern in one
   small file. The heavy I/O (Chrome, network, Lighthouse) lives behind four
   small modules that return plain data.

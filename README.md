@@ -232,4 +232,6 @@ This challenge required four artifacts — all in this repo:
 ---
 
 Built with Node.js, Lighthouse, cheerio, Express, and a lot of free tiers —
-no commercial API required for the core. MIT licensed.
+no commercial API required for the core. Developed with AI assistance
+(Hermes Agent, OpenCode CLI, DeepSeek v4 flash) — see [`docs/PROCESS.md`](docs/PROCESS.md).
+MIT licensed.
