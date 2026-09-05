@@ -17,6 +17,10 @@ and cite the page. It runs on **every** analysis (no toggle, no opt-out).
 
 ## Quick start
 
+> 👉 **Full step-by-step install & use guide (reviewer-friendly):**
+> [`docs/INSTALL_GUIDE.md`](docs/INSTALL_GUIDE.md) — including *"do I need an API key?"*
+> (spoiler: no).
+
 ### Option A — Docker (easiest for reviewers: nothing but Docker required)
 
 ```bash
