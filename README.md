@@ -135,7 +135,7 @@ render via CDP   scores         sitemap probe    → page model     generative r
   Lighthouse attaches to the same debugging port for lab Core Web Vitals.
 - **Extraction** (`extract.js`) turns rendered HTML into a normalized page
   model; analyzers are pure functions over that model — easy to unit test
-  (see `test/`, 21 tests, fixtures included).
+  (see `test/`, 44 tests, fixtures included).
 - **Errors degrade gracefully**: non-HTML responses, timeouts, unreachable
   hosts, and even "404 with content" servers (some CDNs do this) produce clear
   messages or scored checks instead of crashes.
