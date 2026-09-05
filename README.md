@@ -20,6 +20,10 @@ and cite the page. It runs on **every** analysis (no toggle, no opt-out).
 > 👉 **Full step-by-step install & use guide (reviewer-friendly):**
 > [`docs/INSTALL_GUIDE.md`](docs/INSTALL_GUIDE.md) — including *"do I need an API key?"*
 > (spoiler: no).
+>
+> 👉 **Enable the AI layer (GEO LLM analysis) in 30 seconds:**
+> [`docs/ENABLE_AI.md`](docs/ENABLE_AI.md) — one API key lights up the generative-engine read
+> on every analysis.
 
 ### Option A — Docker (easiest for reviewers: nothing but Docker required)
 
